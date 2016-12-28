@@ -1,0 +1,514 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "ReJSON - a JSON data type for Redis\n\n\nReJSON is a \nRedis\n module that implements\n\nECMA-404 The JSON Data Interchange Standard\n as a native data type. It allows storing, updating\nand fetching JSON values from Redis keys (documents). The JSON values are managed as binary objects,\nthus allowing Redis-blazing performance. \n\n\nReJSON is developed with \n3 at \nRedis Labs\n. The source code is available\nfrom: https://github.com/RedisLabsModules/ReJSON\n\n\nQuickstart\n\n\n\n\nBuild the ReJSON module library\n\n\nLoad ReJSON to Redis\n\n\nUse it from \nany\n Redis client\n, e.g.:\n\n\n\n\n\n\nBuilding the module\n\n\nLinux\n\n\nPrerequirements:\n\n\n\n\nThe ReJSON repository: \ngit clone https://github.com/RedisLabsModules/rejson.git\n\n\nThe \nbuild-essential\n and \ncmake\n packages: \napt-get install build-essential cmake\n\n\n\n\nThis module employs standard CMake tooling. Assuming that the repository's directory is at\n\n~/rejson\n, navigate to it and run the script \n/bootstrap.sh\n followed by \ncmake\n.\nThe output should look something like:\n\n\n~/rejson$ ./bootstrap.sh\n-- The C compiler identification is GNU 5.4.0\n...\n!! 'REDIS_SERVER_PATH' variable not defined (use cmake -D) - module unit test will not be run\n-- Configuring done\n-- Generating done\n-- Build files have been written to: rejson/build\n~/rejson$ cmake --build build --target rejson\nScanning dependencies of target rmobject\n...\n[100%] Linking C shared library rejson/lib/rejson.so\n[100%] Built target rejson\n\n\n\n\nCongratulations! You can find the compiled module library at \nlib/rejson.so\n.\n\n\nMacOSX\n\n\nTBD\n\n\nWindows\n\n\nYeah, right :)\n\n\nLoading the module to Redis\n\n\nPrerequirements:\n\n\n\n\nRedis v4.0 or above\n\n\n\n\nThe recommended way have Redis load the module is during startup by by adding the following to the\n\nredis.conf\n file:\n\n\nloadmodule /path/to/module/rejson.so\n\n\n\n\nIn the line above replace \n/path/to/module/rejson.so\n with the actual path to the module's library.\nAlternatively you, you can have Redis load the module using the following command line argument\nsyntax:\n\n\n~/$ redis-server --loadmodule /path/to/module/rejson.so\n\n\n\n\nLastly, you can also use the \nMODULE LOAD\n command. Note, however, that \nMODULE LOAD\n is a\ndangerous command and may be blocked/deprecated in the future due to security considerations.\n\n\nOnce the module has been loaded successfully, the Redis log should have lines similar to:\n\n\n...\n1877:M 23 Dec 02:02:59.725 # \nReJSON\n JSON data type for Redis - v1.0.0 [encver 0]\n1877:M 23 Dec 02:02:59.725 * Module 'ReJSON' loaded from /foo/bar/rejson/lib/rejson.so\n...\n\n\n\n\nUsing ReJSON\n\n\nBefore using ReJSON you should familiarize yourself with its commands and syntax as detailed in the\n\ncommands refernce\n document. However, to quickly get started just review this\nsection and get these two things:\n\n\n\n\nA Redis server running the the module (see \nbuilding\n and\n    \nloading\n for instructions)\n\n\nAny \nRedis client\n\n\n\n\nWith \nredis-cli\n\n\nThis example will use \nredis-cli\n as the Redis client. The first ReJSON command to try out is\n\nJSON.SET\n, which sets a Redis key with a JSON value. All JSON values can be\nused, for example a string:\n\n\n127.0.0.1:6379\n JSON.SET foo . '\nbar\n'\nOK\n127.0.0.1:6379\n JSON.GET foo\n\n\\\nbar\\\n\n127.0.0.1:6379\n JSON.TYPE foo .\nstring\n\n\n\n\nJSON.GET\n and \nJSON.TYPE\n do literally that\nregardless of the value's type, but you should really check out \nJSON.GET\n prettifying powers. Note\nhow the commands are given the period character, i.e. \n.\n. This is the\n\npath\n to the value in the ReJSON data type and in this case it just means\nthe root. A couple more of string operations:\n\n\n127.0.0.1:6379\n JSON.STRLEN foo .\n3\n127.0.0.1:6379\n JSON.STRAPPEND foo . '\nbaz\n'\n6\n127.0.0.1:6379\n JSON.GET foo\n\n\\\nbarbaz\\\n\n\n\n\n\n\nJSON.STRLEN\n tells you the length of the string, and you can append\nanother string to it with \nJSON.STRAPPEND\n. Numbers can be\n\nincremented\n and \nmultiplied\n:\n\n\n127.0.0.1:6379\n JSON.SET num . 0\nOK\n127.0.0.1:6379\n JSON.NUMINCRBY num . 1\n\n1\n\n127.0.0.1:6379\n JSON.NUMINCRBY num . 1.5\n\n2.5\n\n127.0.0.1:6379\n JSON.NUMINCRBY num . -0.75\n\n1.75\n\n127.0.0.1:6379\n JSON.NUMMULTBY num . 24\n\n42\n\n\n\n\n\nOf course, a more interesting example would involve an array or maybe an object. Because or isn't\nxor here goes:\n\n\n127.0.0.1:6379\n JSON.SET amoreinterestingexample . '[ true, { \nanswer\n: 42 }, null ]'\nOK\n127.0.0.1:6379\n JSON.GET amoreinterestingexample\n\n[true,{\\\nanswer\\\n:42},null]\n\n127.0.0.1:6379\n JSON.GET amoreinterestingexample [1].answer\n\n42\n\n127.0.0.1:6379\n JSON.DEL amoreinterestingexample [-1]\n1\n127.0.0.1:6379\n JSON.GET amoreinterestingexample\n\n[true,{\\\nanswer\\\n:42}]\n\n\n\n\n\nThe handy \nJSON.DEL\n command deletes anything you tell it to. Arrays can be\nmanipulated with a dedicated subset of ReJSON commands:\n\n\n127.0.0.1:6379\n JSON.SET arr . []\nOK\n127.0.0.1:6379\n JSON.ARRAPPEND arr . 0\n(integer) 1\n127.0.0.1:6379\n JSON.GET arr\n\n[0]\n\n127.0.0.1:6379\n JSON.ARRINSERT arr . 0 -2 -1\n(integer) 3\n127.0.0.1:6379\n JSON.GET arr\n\n[-2,-1,0]\n\n127.0.0.1:6379\n JSON.ARRTRIM arr . 1 1\n1\n127.0.0.1:6379\n JSON.GET arr\n\n[-1]\n\n127.0.0.1:6379\n JSON.ARRPOP arr\n\n-1\n\n127.0.0.1:6379\n JSON.ARRPOP arr\n(nil)\n\n\n\n\nAnd objects have their own commands too:\n\n\n127.0.0.1:6379\n JSON.SET obj . '{\nname\n:\nLeonard Cohen\n,\nlastSeen\n:1478476800,\nloggedOut\n: true}'\nOK\n127.0.0.1:6379\n JSON.OBJLEN obj .\n(integer) 3\n127.0.0.1:6379\n JSON.OBJKEYS obj .\n1) \nname\n\n2) \nlastSeen\n\n3) \nloggedOut\n\n\n\n\n\nWith any other client\n\n\nUnless your \nRedis client\n already supports Redis modules (unlikely) or ReJSON specifically (even\nunlikelier), you should be ok using its ability to send raw Redis commands. Depending on your client\nof choice the exact method for doing that may vary.\n\n\nPython example\n\n\nThis code snippet shows how to use ReJSON from Python with\n\nredis-py\n:\n\n\nimport redis\nimport json\n\ndata = {\n    'foo': 'bar'\n}\n\nr = redis.StrictRedis()\nr.execute_command('JSON.SET', 'doc', '.', json.dumps(data))\nreply = json.loads(r.execute_command('JSON.GET', 'doc'))\n\n\n\n\nFor a more comprehensive example, including a simple Python wrapper for ReJSON, see\n\n/examples/python\n.", 
+            "title": "Quickstart"
+        }, 
+        {
+            "location": "/#rejson-a-json-data-type-for-redis", 
+            "text": "ReJSON is a  Redis  module that implements ECMA-404 The JSON Data Interchange Standard  as a native data type. It allows storing, updating\nand fetching JSON values from Redis keys (documents). The JSON values are managed as binary objects,\nthus allowing Redis-blazing performance.   ReJSON is developed with  3 at  Redis Labs . The source code is available\nfrom: https://github.com/RedisLabsModules/ReJSON", 
+            "title": "ReJSON - a JSON data type for Redis"
+        }, 
+        {
+            "location": "/#quickstart", 
+            "text": "Build the ReJSON module library  Load ReJSON to Redis  Use it from  any  Redis client , e.g.:", 
+            "title": "Quickstart"
+        }, 
+        {
+            "location": "/#building-the-module", 
+            "text": "", 
+            "title": "Building the module"
+        }, 
+        {
+            "location": "/#linux", 
+            "text": "Prerequirements:   The ReJSON repository:  git clone https://github.com/RedisLabsModules/rejson.git  The  build-essential  and  cmake  packages:  apt-get install build-essential cmake   This module employs standard CMake tooling. Assuming that the repository's directory is at ~/rejson , navigate to it and run the script  /bootstrap.sh  followed by  cmake .\nThe output should look something like:  ~/rejson$ ./bootstrap.sh\n-- The C compiler identification is GNU 5.4.0\n...\n!! 'REDIS_SERVER_PATH' variable not defined (use cmake -D) - module unit test will not be run\n-- Configuring done\n-- Generating done\n-- Build files have been written to: rejson/build\n~/rejson$ cmake --build build --target rejson\nScanning dependencies of target rmobject\n...\n[100%] Linking C shared library rejson/lib/rejson.so\n[100%] Built target rejson  Congratulations! You can find the compiled module library at  lib/rejson.so .", 
+            "title": "Linux"
+        }, 
+        {
+            "location": "/#macosx", 
+            "text": "TBD", 
+            "title": "MacOSX"
+        }, 
+        {
+            "location": "/#windows", 
+            "text": "Yeah, right :)", 
+            "title": "Windows"
+        }, 
+        {
+            "location": "/#loading-the-module-to-redis", 
+            "text": "Prerequirements:   Redis v4.0 or above   The recommended way have Redis load the module is during startup by by adding the following to the redis.conf  file:  loadmodule /path/to/module/rejson.so  In the line above replace  /path/to/module/rejson.so  with the actual path to the module's library.\nAlternatively you, you can have Redis load the module using the following command line argument\nsyntax:  ~/$ redis-server --loadmodule /path/to/module/rejson.so  Lastly, you can also use the  MODULE LOAD  command. Note, however, that  MODULE LOAD  is a\ndangerous command and may be blocked/deprecated in the future due to security considerations.  Once the module has been loaded successfully, the Redis log should have lines similar to:  ...\n1877:M 23 Dec 02:02:59.725 #  ReJSON  JSON data type for Redis - v1.0.0 [encver 0]\n1877:M 23 Dec 02:02:59.725 * Module 'ReJSON' loaded from /foo/bar/rejson/lib/rejson.so\n...", 
+            "title": "Loading the module to Redis"
+        }, 
+        {
+            "location": "/#using-rejson", 
+            "text": "Before using ReJSON you should familiarize yourself with its commands and syntax as detailed in the commands refernce  document. However, to quickly get started just review this\nsection and get these two things:   A Redis server running the the module (see  building  and\n     loading  for instructions)  Any  Redis client", 
+            "title": "Using ReJSON"
+        }, 
+        {
+            "location": "/#with-redis-cli", 
+            "text": "This example will use  redis-cli  as the Redis client. The first ReJSON command to try out is JSON.SET , which sets a Redis key with a JSON value. All JSON values can be\nused, for example a string:  127.0.0.1:6379  JSON.SET foo . ' bar '\nOK\n127.0.0.1:6379  JSON.GET foo \\ bar\\ \n127.0.0.1:6379  JSON.TYPE foo .\nstring  JSON.GET  and  JSON.TYPE  do literally that\nregardless of the value's type, but you should really check out  JSON.GET  prettifying powers. Note\nhow the commands are given the period character, i.e.  . . This is the path  to the value in the ReJSON data type and in this case it just means\nthe root. A couple more of string operations:  127.0.0.1:6379  JSON.STRLEN foo .\n3\n127.0.0.1:6379  JSON.STRAPPEND foo . ' baz '\n6\n127.0.0.1:6379  JSON.GET foo \\ barbaz\\   JSON.STRLEN  tells you the length of the string, and you can append\nanother string to it with  JSON.STRAPPEND . Numbers can be incremented  and  multiplied :  127.0.0.1:6379  JSON.SET num . 0\nOK\n127.0.0.1:6379  JSON.NUMINCRBY num . 1 1 \n127.0.0.1:6379  JSON.NUMINCRBY num . 1.5 2.5 \n127.0.0.1:6379  JSON.NUMINCRBY num . -0.75 1.75 \n127.0.0.1:6379  JSON.NUMMULTBY num . 24 42   Of course, a more interesting example would involve an array or maybe an object. Because or isn't\nxor here goes:  127.0.0.1:6379  JSON.SET amoreinterestingexample . '[ true, {  answer : 42 }, null ]'\nOK\n127.0.0.1:6379  JSON.GET amoreinterestingexample [true,{\\ answer\\ :42},null] \n127.0.0.1:6379  JSON.GET amoreinterestingexample [1].answer 42 \n127.0.0.1:6379  JSON.DEL amoreinterestingexample [-1]\n1\n127.0.0.1:6379  JSON.GET amoreinterestingexample [true,{\\ answer\\ :42}]   The handy  JSON.DEL  command deletes anything you tell it to. Arrays can be\nmanipulated with a dedicated subset of ReJSON commands:  127.0.0.1:6379  JSON.SET arr . []\nOK\n127.0.0.1:6379  JSON.ARRAPPEND arr . 0\n(integer) 1\n127.0.0.1:6379  JSON.GET arr [0] \n127.0.0.1:6379  JSON.ARRINSERT arr . 0 -2 -1\n(integer) 3\n127.0.0.1:6379  JSON.GET arr [-2,-1,0] \n127.0.0.1:6379  JSON.ARRTRIM arr . 1 1\n1\n127.0.0.1:6379  JSON.GET arr [-1] \n127.0.0.1:6379  JSON.ARRPOP arr -1 \n127.0.0.1:6379  JSON.ARRPOP arr\n(nil)  And objects have their own commands too:  127.0.0.1:6379  JSON.SET obj . '{ name : Leonard Cohen , lastSeen :1478476800, loggedOut : true}'\nOK\n127.0.0.1:6379  JSON.OBJLEN obj .\n(integer) 3\n127.0.0.1:6379  JSON.OBJKEYS obj .\n1)  name \n2)  lastSeen \n3)  loggedOut", 
+            "title": "With redis-cli"
+        }, 
+        {
+            "location": "/#with-any-other-client", 
+            "text": "Unless your  Redis client  already supports Redis modules (unlikely) or ReJSON specifically (even\nunlikelier), you should be ok using its ability to send raw Redis commands. Depending on your client\nof choice the exact method for doing that may vary.", 
+            "title": "With any other client"
+        }, 
+        {
+            "location": "/#python-example", 
+            "text": "This code snippet shows how to use ReJSON from Python with redis-py :  import redis\nimport json\n\ndata = {\n    'foo': 'bar'\n}\n\nr = redis.StrictRedis()\nr.execute_command('JSON.SET', 'doc', '.', json.dumps(data))\nreply = json.loads(r.execute_command('JSON.GET', 'doc'))  For a more comprehensive example, including a simple Python wrapper for ReJSON, see /examples/python .", 
+            "title": "Python example"
+        }, 
+        {
+            "location": "/commands/", 
+            "text": "ReJSON commands\n\n\nOverview\n\n\nSupported JSON\n\n\nReJSON aims at providing full support for\n\nECMA-404 The JSON Data Interchange Standard\n.\n\n\nIn the below, the term \nJSON Value\n refers to any of the valid values. A \nContainer\n is either a\n\nJSON Array\n or a \nJSON Object\n. A \nJSON Scalar\n is a \nJSON Number\n, a \nJSON String\n or a literal\n(\nJSON False\n, \nJSON True\n or \nJSON Null\n).\n\n\nReJSON API\n\n\nEach of the module's commands is described in detail in the sections below. Each command section's\nheader is the syntax for the command, where:\n\n\n\n\nCommand and subcommand names are in uppercase, for example \nJSON.SET\n or \nINDENT\n\n\nMandatory arguments are enclosed in angle brackets, e.g. \npath\n\n\nOptional arguments are enclosed in square brackets, e.g. \n[index]\n\n\nAdditional optional arguments are indicated by three period characters, i.e. \n...\n\n\nThe pipe character, \n|\n, means an exclusive or\n\n\n\n\nCommands usually require a key's name as their first argument and the \npath\n is generally\nassumed to be the root if not specified.\n\n\nThe time complexity of the command does not include that of the\n\npath\n. The size - usually denoted \nN\n - of a value is:\n\n\n\n\n1 for scalar values\n\n\nThe sum of sizes items in a container\n\n\n\n\nJSON.DEL\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the size of the deleted value.\n\n\n\n\nSyntax\n\n\nJSON.DEL \nkey\n \npath\n\n\n\n\n\nDescription\n\n\nDelete a value.\n\n\npath\n defaults to root if not provided. Non-existing keys as well as non-existing paths are\nignored. Deleting an object's root is equivalent to deleting the key from Redis.\n\n\nReturn value\n\n\nInteger\n, specifically the number of paths deleted (0 or 1).\n\n\nJSON.GET\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the size of the value.\n\n\n\n\nSyntax\n\n\nJSON.GET \nkey\n [INDENT indentation-string] [NEWLINE line-break-string] [SPACE space-string] [path ...]\n\n\n\n\nDescription\n\n\nReturn the value at \npath\n in JSON serialized form.\n\n\nThis command accepts multiple \npath\ns, and defaults to the value's root when none are given.\n\n\nThe following subcommands change the reply's and are all set to the empty string by default:\n\n   \nINDENT\n sets the indentation string for nested levels\n\n   \nNEWLINE\n sets the string that's printed at the end of each line\n*   \nSPACE\n sets the string that's put between a key and a value\n\n\nPretty-formatted JSON is producable with \nredis-cli\n by following this example:\n\n\n~/$ redis-cli --raw\n127.0.0.1:6379\n JSON.GET myjsonkey INDENT \n\\t\n NEWLINE \n\\n\n SPACE \n \n path.to.value[1]\n\n\n\n\nReturn value\n\n\nBulk String\n, specifically the JSON serialization.\n\n\nThe reply's structure depends on the on the number of paths. A single path results in the value\nbeing itself is returned, whereas multiple paths are returned as a JSON object in which each path\nis a key.\n\n\nJSON.MGET\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(M*N), where M is the number of keys and N is the size of the value.\n\n\n\n\nSyntax\n\n\nJSON.MGET \nkey\n [key ...] \npath\n\n\n\n\n\nDescription\n\n\nReturns the values at \npath\n from multiple \nkey\ns. Non-existing keys and non-existing paths are\nreported as null.\n\n\nReturn value\n\n\nArray\n of \nBulk Strings\n, specifically the JSON serialization of the value at each key's\npath.\n\n\nJSON.SET\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(M+N), where M is the size of the original value (if it exists) and N is\nthe size of the new value.\n\n\n\n\nSyntax\n\n\nJSON.SET \nkey\n \npath\n \njson\n [NX|XX]\n\n\n\n\nDescription\n\n\nSets the JSON value at \npath\n in \nkey\n\n\nFor new Redis keys the \npath\n must be the root. For existing keys, when the entire \npath\n exists,\nthe value that it contains is replaced with the \njson\n value.\n\n\nA key (with its respective value) is added to a JSON Object (in a Redis ReJSON data type key) if\nand only if it is the last child in the \npath\n. The optional subcommands modify this behavior for\nboth new Redis ReJSON data type keys as well as JSON Object keys in them:\n\n\n\n\nNX\n - only set the key if it does not already exists\n\n\nXX\n - only set the key if it already exists\n\n\n\n\nReturn value\n\n\nSimple String\n \nOK\n if executed correctly, or \nNull Bulk\n if the specified \nNX\n or \nXX\n\nconditions were not met.\n\n\nJSON.TYPE\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(1).\n\n\n\n\nSyntax\n\n\nJSON.TYPE \nkey\n [path]\n\n\n\n\nDescription\n\n\nReport the type of JSON value at \npath\n.\n\n\npath\n defaults to root if not provided. If the \nkey\n or \npath\n do not exist, null is returned.\n\n\nReturn value\n\n\nSimple String\n, specifically the type of value.\n\n\nJSON.NUMINCRBY\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(1).\n\n\n\n\nSyntax\n\n\nJSON.NUMINCRBY \nkey\n \npath\n \nnumber\n\n\n\n\n\nDescription\n\n\nIncrements the number value stored at \npath\n by \nnumber\n.\n\n\nReturn value\n\n\nBulk String\n, specifically the stringified new value.\n\n\nJSON.NUMMULTBY\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(1).\n\n\n\n\nSyntax\n\n\nJSON.NUMMULTBY \nkey\n \npath\n \nnumber\n\n\n\n\n\nDescription\n\n\nMultiplies the number value stored at \npath\n by \nnumber\n.\n\n\nReturn value\n\n\nBulk String\n, specifically the stringified new value.\n\n\nJSON.STRAPPEND\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the new string's length.\n\n\n\n\nSyntax\n\n\nJSON.STRAPPEND \nkey\n [path] \njson-string\n\n\n\n\n\nDescription\n\n\nAppend the \njson-string\n value(s) the string at \npath\n.\n\n\npath\n defaults to root if not provided.\n\n\nReturn value\n\n\nInteger\n, specifically the string's new length.\n\n\nJSON.STRLEN\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(1).\n\n\n\n\nSyntax\n\n\nJSON.STRLEN \nkey\n [path]\n\n\n\n\nDescription\n\n\nReport the length of the JSON String at \npath\n in \nkey\n.\n\n\npath\n defaults to root if not provided. If the \nkey\n or \npath\n do not exist, null is returned.\n\n\nReturn value\n\n\nInteger\n, specifically the string's length.\n\n\nJSON.ARRAPPEND\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(1).\n\n\n\n\nSyntax\n\n\nJSON.ARRAPPEND \nkey\n \npath\n \njson\n [json ...]\n\n\n\n\nDescription\n\n\nAppend the \njson\n value(s) into the array at \npath\n after the last element in it.\n\n\nReturn value\n\n\nInteger\n, specifically the array's new size.\n\n\nJSON.ARRINDEX\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the array's size.\n\n\n\n\nSyntax\n\n\nJSON.ARRINDEX \nkey\n \npath\n \njson-scalar\n [start [stop]]\n\n\n\n\nSearch for the first occurance of a scalar JSON value in an array.\n\n\nThe optional inclusive \nstart\n (default 0) and exclusive \nstop\n (default 0, meaning that the last\nelement is included) specify a slice of the array to search.\n\n\nNote: out of range errors are treated by rounding the index to the array's start and end. An\ninverse index range (e.g, from 1 to 0) will return unfound.\n\n\nReturn value\n\n\nInteger\n, specifically the position of the scalar value in the array or -1 if unfound.\n\n\nJSON.ARRINSERT\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the array's size.\n\n\n\n\nSyntax\n\n\nJSON.ARRINSERT \nkey\n \npath\n \nindex\n \njson\n [json ...]\n\n\n\n\nDescription\n\n\nInsert the \njson\n value(s) into the array at \npath\n before the \nindex\n (shifts to the right).\n\n\nThe index must be in the array's range. Inserting at \nindex\n 0 prepends to the array. Negative\nindex values are interpreted as starting from the end.\n\n\nReturn value\n\n\nInteger\n, specifically the array's new size.\n\n\nJSON.ARRLEN\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(1).\n\n\n\n\nSyntax\n\n\nJSON.ARRLEN \nkey\n [path]\n\n\n\n\nReport the length of the JSON Array at \npath\n in \nkey\n.\n\n\npath\n defaults to root if not provided. If the \nkey\n or \npath\n do not exist, null is returned.\n\n\nReturn value\n\n\nInteger\n, specifically the array's length.\n\n\nJSON.ARRPOP\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the array's size for \nindex\n other than the last element,\nO(1) otherwise.\n\n\n\n\nSyntax\n\n\nJSON.ARRPOP \nkey\n [path [index]]\n\n\n\n\nDescription\n\n\nRemove and return element from the index in the array.\n\n\npath\n defaults to root if not provided. \nindex\n is the position in the array to start popping\nfrom (defaults to -1, meaning the last element). Out of range indices are rounded to their\nrespective array ends. Popping an empty array yields null.\n\n\nReturn value\n\n\nBulk String\n, specifically the popped JSON value.\n\n\nJSON.ARRTRIM\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the array's size.\n\n\n\n\nSyntax\n\n\nJSON.ARRTRIM \nkey\n \npath\n \nstart\n \nstop\n\n\n\n\n\nDescription\n\n\nTrim an array so that it contains only the specified inclusive range of elements.\n\n\nThis command is extremely forgiving and using it with out of range indexes will not produce an\nerror. If \nstart\n is larger than the array's size or \nstart\n \n \nstop\n, the result will be an empty\narray. If \nstart\n is \n 0 then it will be treated as 0. If end is larger than the end of the array,\nit will be treated like the last element in it.\n\n\nReturn value\n\n\nInteger\n, specifically the array's new size.\n\n\nJSON.OBJKEYS\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the number of keys in the object.\n\n\n\n\nSyntax\n\n\nJSON.OBJKEYS \nkey\n [path]\n\n\n\n\nDescription\n\n\nReturn the keys in the object that's referenced by \npath\n.\n\n\npath\n defaults to root if not provided. If the object is empty, or either \nkey\n or \npath\n do not\nexist then null is returned.\n\n\nReturn value\n\n\nArray\n, specifically the key names in the object as \nBulk Strings\n.\n\n\nJSON.OBJLEN\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(1).\n\n\n\n\nSyntax\n\n\nJSON.OBJLEN \nkey\n [path]\n\n\n\n\nDescription\n\n\nReport the number of keys in the JSON Object at \npath\n in \nkey\n.\n\n\npath\n defaults to root if not provided. If the \nkey\n or \npath\n do not exist, null is returned.\n\n\nReturn value\n\n\nInteger\n, specifically the number of keys in the object.\n\n\nJSON.DEBUG\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the size of the JSON value.\n\n\n\n\nSyntax\n\n\nJSON.DEBUG \nsubcommand \n arguments\n\n\n\n\n\nDescription\n\n\nReport information.\n\n\nSupported subcommands are:\n\n\n\n\nMEMORY \nkey\n [path]\n - report the memory usage in bytes of a value. \npath\n defaults to root if\n    not provided.\n\n\nHELP\n - replies with a helpful message\n\n\n\n\nReturn value\n\n\nDepends on the subcommand used.\n\n\n\n\nMEMORY\n returns an \ninteger\n, specifically the size in bytes of the value\n\n\nHELP\n returns an \narray\n, specifically with the help message\n\n\n\n\nJSON.FORGET\n\n\nThis command is an alias for \nJSON.DEL\n.\n\n\nJSON.RESP\n\n\n\n\nAvailable since 1.0.0.\n\n\nTime complexity:\n  O(N), where N is the size of the JSON value.\n\n\n\n\nSyntax\n\n\nJSON.RESP \nkey\n [path]\n\n\n\n\nDescription\n\n\nReturn the JSON in \nkey\n in \nRedis Serialization Protocol (RESP)\n.\n\n\npath\n defaults to root if not provided. This command uses the following mapping from JSON to RESP:\n-   JSON Null is mapped to the \nRESP Null Bulk String\n\n-   JSON \nfalse\n and \ntrue\n values are mapped to the respective \nRESP Simple Strings\n\n-   JSON Numbers are mapped to \nRESP Integers\n or \nRESP Bulk Strings\n, depending on type\n-   JSON Strings are mapped to \nRESP Bulk Strings\n\n-   JSON Arrays are represented as \nRESP Arrays\n in which first element is the\n          \nsimple string\n \n[\n followed by the array's elements\n-   JSON Objects are represented as \nRESP Arrays\n in which first element is the\n          \nsimple string\n \n{\n. Each successive entry represents a key-value pair as a two-entries\n          \narray\n of \nbulk strings\n.\n\n\nReturn value\n\n\nArray\n, specifically the JSON's RESP form as detailed.", 
+            "title": "Commands"
+        }, 
+        {
+            "location": "/commands/#rejson-commands", 
+            "text": "", 
+            "title": "ReJSON commands"
+        }, 
+        {
+            "location": "/commands/#overview", 
+            "text": "", 
+            "title": "Overview"
+        }, 
+        {
+            "location": "/commands/#supported-json", 
+            "text": "ReJSON aims at providing full support for ECMA-404 The JSON Data Interchange Standard .  In the below, the term  JSON Value  refers to any of the valid values. A  Container  is either a JSON Array  or a  JSON Object . A  JSON Scalar  is a  JSON Number , a  JSON String  or a literal\n( JSON False ,  JSON True  or  JSON Null ).", 
+            "title": "Supported JSON"
+        }, 
+        {
+            "location": "/commands/#rejson-api", 
+            "text": "Each of the module's commands is described in detail in the sections below. Each command section's\nheader is the syntax for the command, where:   Command and subcommand names are in uppercase, for example  JSON.SET  or  INDENT  Mandatory arguments are enclosed in angle brackets, e.g.  path  Optional arguments are enclosed in square brackets, e.g.  [index]  Additional optional arguments are indicated by three period characters, i.e.  ...  The pipe character,  | , means an exclusive or   Commands usually require a key's name as their first argument and the  path  is generally\nassumed to be the root if not specified.  The time complexity of the command does not include that of the path . The size - usually denoted  N  - of a value is:   1 for scalar values  The sum of sizes items in a container", 
+            "title": "ReJSON API"
+        }, 
+        {
+            "location": "/commands/#jsondel", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the size of the deleted value.", 
+            "title": "JSON.DEL"
+        }, 
+        {
+            "location": "/commands/#syntax", 
+            "text": "JSON.DEL  key   path", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description", 
+            "text": "Delete a value.  path  defaults to root if not provided. Non-existing keys as well as non-existing paths are\nignored. Deleting an object's root is equivalent to deleting the key from Redis.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value", 
+            "text": "Integer , specifically the number of paths deleted (0 or 1).", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonget", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the size of the value.", 
+            "title": "JSON.GET"
+        }, 
+        {
+            "location": "/commands/#syntax_1", 
+            "text": "JSON.GET  key  [INDENT indentation-string] [NEWLINE line-break-string] [SPACE space-string] [path ...]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_1", 
+            "text": "Return the value at  path  in JSON serialized form.  This command accepts multiple  path s, and defaults to the value's root when none are given.  The following subcommands change the reply's and are all set to the empty string by default:     INDENT  sets the indentation string for nested levels     NEWLINE  sets the string that's printed at the end of each line\n*    SPACE  sets the string that's put between a key and a value  Pretty-formatted JSON is producable with  redis-cli  by following this example:  ~/$ redis-cli --raw\n127.0.0.1:6379  JSON.GET myjsonkey INDENT  \\t  NEWLINE  \\n  SPACE     path.to.value[1]", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_1", 
+            "text": "Bulk String , specifically the JSON serialization.  The reply's structure depends on the on the number of paths. A single path results in the value\nbeing itself is returned, whereas multiple paths are returned as a JSON object in which each path\nis a key.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonmget", 
+            "text": "Available since 1.0.0.  Time complexity:   O(M*N), where M is the number of keys and N is the size of the value.", 
+            "title": "JSON.MGET"
+        }, 
+        {
+            "location": "/commands/#syntax_2", 
+            "text": "JSON.MGET  key  [key ...]  path", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_2", 
+            "text": "Returns the values at  path  from multiple  key s. Non-existing keys and non-existing paths are\nreported as null.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_2", 
+            "text": "Array  of  Bulk Strings , specifically the JSON serialization of the value at each key's\npath.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonset", 
+            "text": "Available since 1.0.0.  Time complexity:   O(M+N), where M is the size of the original value (if it exists) and N is\nthe size of the new value.", 
+            "title": "JSON.SET"
+        }, 
+        {
+            "location": "/commands/#syntax_3", 
+            "text": "JSON.SET  key   path   json  [NX|XX]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_3", 
+            "text": "Sets the JSON value at  path  in  key  For new Redis keys the  path  must be the root. For existing keys, when the entire  path  exists,\nthe value that it contains is replaced with the  json  value.  A key (with its respective value) is added to a JSON Object (in a Redis ReJSON data type key) if\nand only if it is the last child in the  path . The optional subcommands modify this behavior for\nboth new Redis ReJSON data type keys as well as JSON Object keys in them:   NX  - only set the key if it does not already exists  XX  - only set the key if it already exists", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_3", 
+            "text": "Simple String   OK  if executed correctly, or  Null Bulk  if the specified  NX  or  XX \nconditions were not met.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsontype", 
+            "text": "Available since 1.0.0.  Time complexity:   O(1).", 
+            "title": "JSON.TYPE"
+        }, 
+        {
+            "location": "/commands/#syntax_4", 
+            "text": "JSON.TYPE  key  [path]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_4", 
+            "text": "Report the type of JSON value at  path .  path  defaults to root if not provided. If the  key  or  path  do not exist, null is returned.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_4", 
+            "text": "Simple String , specifically the type of value.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonnumincrby", 
+            "text": "Available since 1.0.0.  Time complexity:   O(1).", 
+            "title": "JSON.NUMINCRBY"
+        }, 
+        {
+            "location": "/commands/#syntax_5", 
+            "text": "JSON.NUMINCRBY  key   path   number", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_5", 
+            "text": "Increments the number value stored at  path  by  number .", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_5", 
+            "text": "Bulk String , specifically the stringified new value.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonnummultby", 
+            "text": "Available since 1.0.0.  Time complexity:   O(1).", 
+            "title": "JSON.NUMMULTBY"
+        }, 
+        {
+            "location": "/commands/#syntax_6", 
+            "text": "JSON.NUMMULTBY  key   path   number", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_6", 
+            "text": "Multiplies the number value stored at  path  by  number .", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_6", 
+            "text": "Bulk String , specifically the stringified new value.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonstrappend", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the new string's length.", 
+            "title": "JSON.STRAPPEND"
+        }, 
+        {
+            "location": "/commands/#syntax_7", 
+            "text": "JSON.STRAPPEND  key  [path]  json-string", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_7", 
+            "text": "Append the  json-string  value(s) the string at  path .  path  defaults to root if not provided.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_7", 
+            "text": "Integer , specifically the string's new length.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonstrlen", 
+            "text": "Available since 1.0.0.  Time complexity:   O(1).", 
+            "title": "JSON.STRLEN"
+        }, 
+        {
+            "location": "/commands/#syntax_8", 
+            "text": "JSON.STRLEN  key  [path]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_8", 
+            "text": "Report the length of the JSON String at  path  in  key .  path  defaults to root if not provided. If the  key  or  path  do not exist, null is returned.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_8", 
+            "text": "Integer , specifically the string's length.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonarrappend", 
+            "text": "Available since 1.0.0.  Time complexity:   O(1).", 
+            "title": "JSON.ARRAPPEND"
+        }, 
+        {
+            "location": "/commands/#syntax_9", 
+            "text": "JSON.ARRAPPEND  key   path   json  [json ...]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_9", 
+            "text": "Append the  json  value(s) into the array at  path  after the last element in it.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_9", 
+            "text": "Integer , specifically the array's new size.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonarrindex", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the array's size.", 
+            "title": "JSON.ARRINDEX"
+        }, 
+        {
+            "location": "/commands/#syntax_10", 
+            "text": "JSON.ARRINDEX  key   path   json-scalar  [start [stop]]  Search for the first occurance of a scalar JSON value in an array.  The optional inclusive  start  (default 0) and exclusive  stop  (default 0, meaning that the last\nelement is included) specify a slice of the array to search.  Note: out of range errors are treated by rounding the index to the array's start and end. An\ninverse index range (e.g, from 1 to 0) will return unfound.", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#return-value_10", 
+            "text": "Integer , specifically the position of the scalar value in the array or -1 if unfound.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonarrinsert", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the array's size.", 
+            "title": "JSON.ARRINSERT"
+        }, 
+        {
+            "location": "/commands/#syntax_11", 
+            "text": "JSON.ARRINSERT  key   path   index   json  [json ...]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_10", 
+            "text": "Insert the  json  value(s) into the array at  path  before the  index  (shifts to the right).  The index must be in the array's range. Inserting at  index  0 prepends to the array. Negative\nindex values are interpreted as starting from the end.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_11", 
+            "text": "Integer , specifically the array's new size.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonarrlen", 
+            "text": "Available since 1.0.0.  Time complexity:   O(1).", 
+            "title": "JSON.ARRLEN"
+        }, 
+        {
+            "location": "/commands/#syntax_12", 
+            "text": "JSON.ARRLEN  key  [path]  Report the length of the JSON Array at  path  in  key .  path  defaults to root if not provided. If the  key  or  path  do not exist, null is returned.", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#return-value_12", 
+            "text": "Integer , specifically the array's length.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonarrpop", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the array's size for  index  other than the last element,\nO(1) otherwise.", 
+            "title": "JSON.ARRPOP"
+        }, 
+        {
+            "location": "/commands/#syntax_13", 
+            "text": "JSON.ARRPOP  key  [path [index]]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_11", 
+            "text": "Remove and return element from the index in the array.  path  defaults to root if not provided.  index  is the position in the array to start popping\nfrom (defaults to -1, meaning the last element). Out of range indices are rounded to their\nrespective array ends. Popping an empty array yields null.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_13", 
+            "text": "Bulk String , specifically the popped JSON value.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonarrtrim", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the array's size.", 
+            "title": "JSON.ARRTRIM"
+        }, 
+        {
+            "location": "/commands/#syntax_14", 
+            "text": "JSON.ARRTRIM  key   path   start   stop", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_12", 
+            "text": "Trim an array so that it contains only the specified inclusive range of elements.  This command is extremely forgiving and using it with out of range indexes will not produce an\nerror. If  start  is larger than the array's size or  start     stop , the result will be an empty\narray. If  start  is   0 then it will be treated as 0. If end is larger than the end of the array,\nit will be treated like the last element in it.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_14", 
+            "text": "Integer , specifically the array's new size.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonobjkeys", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the number of keys in the object.", 
+            "title": "JSON.OBJKEYS"
+        }, 
+        {
+            "location": "/commands/#syntax_15", 
+            "text": "JSON.OBJKEYS  key  [path]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_13", 
+            "text": "Return the keys in the object that's referenced by  path .  path  defaults to root if not provided. If the object is empty, or either  key  or  path  do not\nexist then null is returned.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_15", 
+            "text": "Array , specifically the key names in the object as  Bulk Strings .", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonobjlen", 
+            "text": "Available since 1.0.0.  Time complexity:   O(1).", 
+            "title": "JSON.OBJLEN"
+        }, 
+        {
+            "location": "/commands/#syntax_16", 
+            "text": "JSON.OBJLEN  key  [path]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_14", 
+            "text": "Report the number of keys in the JSON Object at  path  in  key .  path  defaults to root if not provided. If the  key  or  path  do not exist, null is returned.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_16", 
+            "text": "Integer , specifically the number of keys in the object.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsondebug", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the size of the JSON value.", 
+            "title": "JSON.DEBUG"
+        }, 
+        {
+            "location": "/commands/#syntax_17", 
+            "text": "JSON.DEBUG  subcommand   arguments", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_15", 
+            "text": "Report information.  Supported subcommands are:   MEMORY  key  [path]  - report the memory usage in bytes of a value.  path  defaults to root if\n    not provided.  HELP  - replies with a helpful message", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_17", 
+            "text": "Depends on the subcommand used.   MEMORY  returns an  integer , specifically the size in bytes of the value  HELP  returns an  array , specifically with the help message", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/commands/#jsonforget", 
+            "text": "This command is an alias for  JSON.DEL .", 
+            "title": "JSON.FORGET"
+        }, 
+        {
+            "location": "/commands/#jsonresp", 
+            "text": "Available since 1.0.0.  Time complexity:   O(N), where N is the size of the JSON value.", 
+            "title": "JSON.RESP"
+        }, 
+        {
+            "location": "/commands/#syntax_18", 
+            "text": "JSON.RESP  key  [path]", 
+            "title": "Syntax"
+        }, 
+        {
+            "location": "/commands/#description_16", 
+            "text": "Return the JSON in  key  in  Redis Serialization Protocol (RESP) .  path  defaults to root if not provided. This command uses the following mapping from JSON to RESP:\n-   JSON Null is mapped to the  RESP Null Bulk String \n-   JSON  false  and  true  values are mapped to the respective  RESP Simple Strings \n-   JSON Numbers are mapped to  RESP Integers  or  RESP Bulk Strings , depending on type\n-   JSON Strings are mapped to  RESP Bulk Strings \n-   JSON Arrays are represented as  RESP Arrays  in which first element is the\n           simple string   [  followed by the array's elements\n-   JSON Objects are represented as  RESP Arrays  in which first element is the\n           simple string   { . Each successive entry represents a key-value pair as a two-entries\n           array  of  bulk strings .", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/commands/#return-value_18", 
+            "text": "Array , specifically the JSON's RESP form as detailed.", 
+            "title": "Return value"
+        }, 
+        {
+            "location": "/path/", 
+            "text": "ReJSON path\n\n\nSince there does not exist a standard for path syntax, ReJSON implements its own. ReJSON's syntax is\na subset of common best practices.\n\n\nPaths always begin at the root of a ReJSON value. The root is denoted by the period character (\n.\n).\nFor paths referencing the root's children, prefixing the path with the root is optional.\n\n\nDotted- and square-bracketed, single-or-double-quoted-child notation are both supported for object\nkeys, so the following paths all refer to \nboo\n, child of \nfoo\n under the root:\n\n\n\n\n.foo.bar\n\n\nfoo[\"bar\"]\n\n\n['foo'][\"bar\"]\n\n\n\n\nArray elements are accessed by their index enclosed by a pair of square brackets. The index is\n0-based, with 0 being the first element of the array, 1 being the next element and so on. These\noffsets can also be negative numbers indicating indices starting at the end of the array. For\nexample, -1 is the last element in the array, -2 the penultimate, and so on.\n\n\nA note about JSON and path compatability\n\n\nBy definition a JSON key can be any valid JSON String. Paths, on the other hand, are traditionally\nbased on JavaScript's (and in Java in turn) variable naming conventions. Therefore, while it is\npossible to have ReJSON store objects containing arbitrary key names, accessing these keys via a\npath will only be possible if they respect these naming syntax rules:\n\n\n\n\nNames must begin with a letter, a dollar (\n$\n) or an underscore (\n_\n) character\n\n\nNames can contain letters, digits, dollar signs and underscores\n\n\nNames are sensitive, case-wise\n\n\n\n\nTime complexity of path evaluation\n\n\nThe complexity of searching (navigating to) an element in the path is made of:\n\n\n\n\nChild level - every level along the path adds an additional search\n\n\nKey search - O(N)\n, where N is the number of keys in the parent object\n\n\nArray search - O(1)\n\n\n\n\nThis means that the overall time complexity of searching a path is \nO(N*M)\n, where N is the depth\nand M is the number of parent object keys.\n\n\n while this is acceptable for objects where N is small, access in larger ones can\nbe optimized. This is planned for a future version.", 
+            "title": "Path syntax"
+        }, 
+        {
+            "location": "/path/#rejson-path", 
+            "text": "Since there does not exist a standard for path syntax, ReJSON implements its own. ReJSON's syntax is\na subset of common best practices.  Paths always begin at the root of a ReJSON value. The root is denoted by the period character ( . ).\nFor paths referencing the root's children, prefixing the path with the root is optional.  Dotted- and square-bracketed, single-or-double-quoted-child notation are both supported for object\nkeys, so the following paths all refer to  boo , child of  foo  under the root:   .foo.bar  foo[\"bar\"]  ['foo'][\"bar\"]   Array elements are accessed by their index enclosed by a pair of square brackets. The index is\n0-based, with 0 being the first element of the array, 1 being the next element and so on. These\noffsets can also be negative numbers indicating indices starting at the end of the array. For\nexample, -1 is the last element in the array, -2 the penultimate, and so on.", 
+            "title": "ReJSON path"
+        }, 
+        {
+            "location": "/path/#a-note-about-json-and-path-compatability", 
+            "text": "By definition a JSON key can be any valid JSON String. Paths, on the other hand, are traditionally\nbased on JavaScript's (and in Java in turn) variable naming conventions. Therefore, while it is\npossible to have ReJSON store objects containing arbitrary key names, accessing these keys via a\npath will only be possible if they respect these naming syntax rules:   Names must begin with a letter, a dollar ( $ ) or an underscore ( _ ) character  Names can contain letters, digits, dollar signs and underscores  Names are sensitive, case-wise", 
+            "title": "A note about JSON and path compatability"
+        }, 
+        {
+            "location": "/path/#time-complexity-of-path-evaluation", 
+            "text": "The complexity of searching (navigating to) an element in the path is made of:   Child level - every level along the path adds an additional search  Key search - O(N) , where N is the number of keys in the parent object  Array search - O(1)   This means that the overall time complexity of searching a path is  O(N*M) , where N is the depth\nand M is the number of parent object keys.   while this is acceptable for objects where N is small, access in larger ones can\nbe optimized. This is planned for a future version.", 
+            "title": "Time complexity of path evaluation"
+        }, 
+        {
+            "location": "/ram/", 
+            "text": "ReJSON RAM usage\n\n\nEvery key in Redis takes memory and requires at least the amount of RAM to store the key name, as\nwell as some per-key overhead that Redis uses. On top of that, the value in the key also requires\nRAM.\n\n\nReJSON stores JSON values as binary data after deserializing them. This representation is often more\nexpensive, size-wize, than the serialized form. The ReJSON data type uses at least 24 bytes (on\n64-bit architectures) for every value, as can be seen by sampling an empty string with the\n\nJSON.DEBUG MEMORY\n command:\n\n\n127.0.0.1:6379\n JSON.SET emptystring . '\n'\nOK\n127.0.0.1:6379\n JSON.DEBUG MEMORY emptystring\n(integer) 24\n\n\n\n\nThis RAM requirement is the same for all scalar values, but strings require additional space\ndepending on their actual length. For example, a 3-character string will use 3 additional bytes:\n\n\n127.0.0.1:6379\n JSON.SET foo . '\nbar\n'\nOK\n127.0.0.1:6379\n JSON.DEBUG MEMORY foo\n(integer) 27\n\n\n\n\nEmpty containers take up 32 bytes to set up:\n\n\n127.0.0.1:6379\n JSON.SET arr . '[]'\nOK\n127.0.0.1:6379\n JSON.DEBUG MEMORY arr\n(integer) 32\n127.0.0.1:6379\n JSON.SET obj . '{}'\nOK\n127.0.0.1:6379\n JSON.DEBUG MEMORY obj\n(integer) 32\n\n\n\n\nThe actual size of a the container is the sum of sizes of all items in it on top of its own\noverhead. To avoid expensive memory reallocations, containers' capacity is scaled by multiples of 2\nuntil they a treshold size is reached, from which they grow by fixed chunks.\n\n\nA container with a single scalar is made up of 32 and 24 bytes, respectively:\n\n\n127.0.0.1:6379\n JSON.SET arr . '[\n]'\nOK\n127.0.0.1:6379\n JSON.DEBUG MEMORY arr\n(integer) 56\n\n\n\n\nA container with two scalars requires 40 bytes for the container (each pointer to an entry in the\ncontainer is 8 bytes), and 2 * 24 bytes for the values themselves:\n\n\n127.0.0.1:6379\n JSON.SET arr . '[\n, \n]'\nOK\n127.0.0.1:6379\n JSON.DEBUG MEMORY arr\n(integer) 88\n\n\n\n\nA 3-item (each 24 bytes) container will be allocated with capacity for 4 items, i.e. 56 bytes:\n\n\n127.0.0.1:6379\n JSON.SET arr . '[\n, \n, \n]'\nOK\n127.0.0.1:6379\n JSON.DEBUG MEMORY arr\n(integer) 128\n\n\n\n\nThe next item will not require an allocation in the container so usage will increase only by that\nscalar's requirement, but another value will scale the container again:\n\n\n127.0.0.1:6379\n JSON.SET arr . '[\n, \n, \n, \n]'\nOK\n127.0.0.1:6379\n JSON.DEBUG MEMORY arr\n(integer) 152\n127.0.0.1:6379\n JSON.SET arr . '[\n, \n, \n, \n, \n]'\nOK\n127.0.0.1:6379\n JSON.DEBUG MEMORY arr\n(integer) 208\n\n\n\n\nNote: in the current version, deleting values from containers \ndoes not\n free the container's\nallocated memory.", 
+            "title": "RAM usage"
+        }, 
+        {
+            "location": "/ram/#rejson-ram-usage", 
+            "text": "Every key in Redis takes memory and requires at least the amount of RAM to store the key name, as\nwell as some per-key overhead that Redis uses. On top of that, the value in the key also requires\nRAM.  ReJSON stores JSON values as binary data after deserializing them. This representation is often more\nexpensive, size-wize, than the serialized form. The ReJSON data type uses at least 24 bytes (on\n64-bit architectures) for every value, as can be seen by sampling an empty string with the JSON.DEBUG MEMORY  command:  127.0.0.1:6379  JSON.SET emptystring . ' '\nOK\n127.0.0.1:6379  JSON.DEBUG MEMORY emptystring\n(integer) 24  This RAM requirement is the same for all scalar values, but strings require additional space\ndepending on their actual length. For example, a 3-character string will use 3 additional bytes:  127.0.0.1:6379  JSON.SET foo . ' bar '\nOK\n127.0.0.1:6379  JSON.DEBUG MEMORY foo\n(integer) 27  Empty containers take up 32 bytes to set up:  127.0.0.1:6379  JSON.SET arr . '[]'\nOK\n127.0.0.1:6379  JSON.DEBUG MEMORY arr\n(integer) 32\n127.0.0.1:6379  JSON.SET obj . '{}'\nOK\n127.0.0.1:6379  JSON.DEBUG MEMORY obj\n(integer) 32  The actual size of a the container is the sum of sizes of all items in it on top of its own\noverhead. To avoid expensive memory reallocations, containers' capacity is scaled by multiples of 2\nuntil they a treshold size is reached, from which they grow by fixed chunks.  A container with a single scalar is made up of 32 and 24 bytes, respectively:  127.0.0.1:6379  JSON.SET arr . '[ ]'\nOK\n127.0.0.1:6379  JSON.DEBUG MEMORY arr\n(integer) 56  A container with two scalars requires 40 bytes for the container (each pointer to an entry in the\ncontainer is 8 bytes), and 2 * 24 bytes for the values themselves:  127.0.0.1:6379  JSON.SET arr . '[ ,  ]'\nOK\n127.0.0.1:6379  JSON.DEBUG MEMORY arr\n(integer) 88  A 3-item (each 24 bytes) container will be allocated with capacity for 4 items, i.e. 56 bytes:  127.0.0.1:6379  JSON.SET arr . '[ ,  ,  ]'\nOK\n127.0.0.1:6379  JSON.DEBUG MEMORY arr\n(integer) 128  The next item will not require an allocation in the container so usage will increase only by that\nscalar's requirement, but another value will scale the container again:  127.0.0.1:6379  JSON.SET arr . '[ ,  ,  ,  ]'\nOK\n127.0.0.1:6379  JSON.DEBUG MEMORY arr\n(integer) 152\n127.0.0.1:6379  JSON.SET arr . '[ ,  ,  ,  ,  ]'\nOK\n127.0.0.1:6379  JSON.DEBUG MEMORY arr\n(integer) 208  Note: in the current version, deleting values from containers  does not  free the container's\nallocated memory.", 
+            "title": "ReJSON RAM usage"
+        }, 
+        {
+            "location": "/developer/", 
+            "text": "Developer notes\n\n\nDesign\n\n\nYou can find some information about ReJSON's design in \ndesign.md\n.\n\n\nTesting\n\n\nPython is required for ReJSON's module test. Install it with \napt-get install python\n.\n\n\nAlso, the module's test requires a path to the \nredis-server\n executable. The path is stored in the\n\nREDIS_SERVER_PATH\n variable and can be set using CMake's \n-D\n switch as follows:\n\n\n~/rejson$ cmake -D REDIS_SERVER_PATH=/path/to/redis-server --build build\n\n\n\n\nAnd then run the tests:\n\n\n~/rejson$ cmake --build build --target test\n...", 
+            "title": "Developer notes"
+        }, 
+        {
+            "location": "/developer/#developer-notes", 
+            "text": "", 
+            "title": "Developer notes"
+        }, 
+        {
+            "location": "/developer/#design", 
+            "text": "You can find some information about ReJSON's design in  design.md .", 
+            "title": "Design"
+        }, 
+        {
+            "location": "/developer/#testing", 
+            "text": "Python is required for ReJSON's module test. Install it with  apt-get install python .  Also, the module's test requires a path to the  redis-server  executable. The path is stored in the REDIS_SERVER_PATH  variable and can be set using CMake's  -D  switch as follows:  ~/rejson$ cmake -D REDIS_SERVER_PATH=/path/to/redis-server --build build  And then run the tests:  ~/rejson$ cmake --build build --target test\n...", 
+            "title": "Testing"
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    
+    <url>
+     <loc>https://redislabsmodules.github.io/ReJSON//</loc>
+     <lastmod>2016-12-28</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://redislabsmodules.github.io/ReJSON//commands/</loc>
+     <lastmod>2016-12-28</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://redislabsmodules.github.io/ReJSON//path/</loc>
+     <lastmod>2016-12-28</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://redislabsmodules.github.io/ReJSON//ram/</loc>
+     <lastmod>2016-12-28</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://redislabsmodules.github.io/ReJSON//developer/</loc>
+     <lastmod>2016-12-28</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+</urlset>

@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Commands - ReJSON Documentation</title>
+      
+      
+      
+        <link rel="canonical" href="https://redislabsmodules.github.io/ReJSON/commands/">
+      
+      
+    
+    <meta property="og:url" content="https://redislabsmodules.github.io/ReJSON/commands/">
+    <meta property="og:title" content="ReJSON Documentation">
+    <meta property="og:image" content="https://redislabsmodules.github.io/ReJSON/commands//../">
+    <meta name="apple-mobile-web-app-title" content="ReJSON Documentation">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../assets/fonts/icon.eot?52m981');
+      	src: url('../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+    <script src="../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+          </span>
+        
+        Commands
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/RedisLabsModules/ReJSON" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          ReJSON Documentation
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          RedisLabsModules/ReJSON
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/RedisLabsModules/ReJSON/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/RedisLabsModules/ReJSON/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Quickstart" href="..">
+      Quickstart
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="current" title="Commands" href="./">
+      Commands
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Overview" href="#overview">
+                Overview
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.DEL" href="#jsondel">
+                JSON.DEL
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.GET" href="#jsonget">
+                JSON.GET
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.MGET" href="#jsonmget">
+                JSON.MGET
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.SET" href="#jsonset">
+                JSON.SET
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.NUMINCRBY" href="#jsonnumincrby">
+                JSON.NUMINCRBY
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.NUMMULTBY" href="#jsonnummultby">
+                JSON.NUMMULTBY
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.STRAPPEND" href="#jsonstrappend">
+                JSON.STRAPPEND
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.STRLEN" href="#jsonstrlen">
+                JSON.STRLEN
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.ARRAPPEND" href="#jsonarrappend">
+                JSON.ARRAPPEND
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.ARRINDEX" href="#jsonarrindex">
+                JSON.ARRINDEX
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.ARRINSERT" href="#jsonarrinsert">
+                JSON.ARRINSERT
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.ARRLEN" href="#jsonarrlen">
+                JSON.ARRLEN
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.ARRPOP" href="#jsonarrpop">
+                JSON.ARRPOP
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.ARRTRIM" href="#jsonarrtrim">
+                JSON.ARRTRIM
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.OBJKEYS" href="#jsonobjkeys">
+                JSON.OBJKEYS
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.OBJLEN" href="#jsonobjlen">
+                JSON.OBJLEN
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.DEBUG" href="#jsondebug">
+                JSON.DEBUG
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.FORGET" href="#jsonforget">
+                JSON.FORGET
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="JSON.RESP" href="#jsonresp">
+                JSON.RESP
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Path syntax" href="../path/">
+      Path syntax
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="RAM usage" href="../ram/">
+      RAM usage
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Developer notes" href="../developer/">
+      Developer notes
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="rejson-commands">ReJSON commands</h1>
+<h2 id="overview">Overview</h2>
+<h3 id="supported-json">Supported JSON</h3>
+<p>ReJSON aims at providing full support for
+<a href="http://json.org/">ECMA-404 The JSON Data Interchange Standard</a>.</p>
+<p>In the below, the term <em>JSON Value</em> refers to any of the valid values. A <em>Container</em> is either a
+<em>JSON Array</em> or a <em>JSON Object</em>. A <em>JSON Scalar</em> is a <em>JSON Number</em>, a <em>JSON String</em> or a literal
+(<em>JSON False</em>, <em>JSON True</em> or <em>JSON Null</em>).</p>
+<h3 id="rejson-api">ReJSON API</h3>
+<p>Each of the module's commands is described in detail in the sections below. Each command section's
+header is the syntax for the command, where:</p>
+<ul>
+<li>Command and subcommand names are in uppercase, for example <code>JSON.SET</code> or <code>INDENT</code></li>
+<li>Mandatory arguments are enclosed in angle brackets, e.g. <code>&lt;path&gt;</code></li>
+<li>Optional arguments are enclosed in square brackets, e.g. <code>[index]</code></li>
+<li>Additional optional arguments are indicated by three period characters, i.e. <code>...</code></li>
+<li>The pipe character, <code>|</code>, means an exclusive or</li>
+</ul>
+<p>Commands usually require a key's name as their first argument and the <a href="../path/">path</a> is generally
+assumed to be the root if not specified.</p>
+<p>The time complexity of the command does not include that of the
+<a href="../path/#time-complexity-of-path-evaluation">path</a>. The size - usually denoted <em>N</em> - of a value is:</p>
+<ul>
+<li>1 for scalar values</li>
+<li>The sum of sizes items in a container</li>
+</ul>
+<h2 id="jsondel">JSON.DEL</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the size of the deleted value.</p>
+</blockquote>
+<h3 id="syntax">Syntax</h3>
+<pre><code>JSON.DEL &lt;key&gt; &lt;path&gt;
+</code></pre>
+
+<h3 id="description">Description</h3>
+<p>Delete a value.</p>
+<p><code>path</code> defaults to root if not provided. Non-existing keys as well as non-existing paths are
+ignored. Deleting an object's root is equivalent to deleting the key from Redis.</p>
+<h3 id="return-value">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the number of paths deleted (0 or 1).</p>
+<h2 id="jsonget">JSON.GET</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the size of the value.</p>
+</blockquote>
+<h3 id="syntax_1">Syntax</h3>
+<pre><code>JSON.GET &lt;key&gt; [INDENT indentation-string] [NEWLINE line-break-string] [SPACE space-string] [path ...]
+</code></pre>
+
+<h3 id="description_1">Description</h3>
+<p>Return the value at <code>path</code> in JSON serialized form.</p>
+<p>This command accepts multiple <code>path</code>s, and defaults to the value's root when none are given.</p>
+<p>The following subcommands change the reply's and are all set to the empty string by default:
+<em>   <code>INDENT</code> sets the indentation string for nested levels
+</em>   <code>NEWLINE</code> sets the string that's printed at the end of each line
+*   <code>SPACE</code> sets the string that's put between a key and a value</p>
+<p>Pretty-formatted JSON is producable with <code>redis-cli</code> by following this example:</p>
+<pre><code>~/$ redis-cli --raw
+127.0.0.1:6379&gt; JSON.GET myjsonkey INDENT &quot;\t&quot; NEWLINE &quot;\n&quot; SPACE &quot; &quot; path.to.value[1]
+</code></pre>
+
+<h3 id="return-value_1">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk String</a>, specifically the JSON serialization.</p>
+<p>The reply's structure depends on the on the number of paths. A single path results in the value
+being itself is returned, whereas multiple paths are returned as a JSON object in which each path
+is a key.</p>
+<h2 id="jsonmget">JSON.MGET</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(M*N), where M is the number of keys and N is the size of the value.</p>
+</blockquote>
+<h3 id="syntax_2">Syntax</h3>
+<pre><code>JSON.MGET &lt;key&gt; [key ...] &lt;path&gt;
+</code></pre>
+
+<h3 id="description_2">Description</h3>
+<p>Returns the values at <code>path</code> from multiple <code>key</code>s. Non-existing keys and non-existing paths are
+reported as null.</p>
+<h3 id="return-value_2">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-arrays">Array</a> of <a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk Strings</a>, specifically the JSON serialization of the value at each key's
+path.</p>
+<h2 id="jsonset">JSON.SET</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(M+N), where M is the size of the original value (if it exists) and N is
+the size of the new value.</p>
+</blockquote>
+<h3 id="syntax_3">Syntax</h3>
+<pre><code>JSON.SET &lt;key&gt; &lt;path&gt; &lt;json&gt; [NX|XX]
+</code></pre>
+
+<h3 id="description_3">Description</h3>
+<p>Sets the JSON value at <code>path</code> in <code>key</code></p>
+<p>For new Redis keys the <code>path</code> must be the root. For existing keys, when the entire <code>path</code> exists,
+the value that it contains is replaced with the <code>json</code> value.</p>
+<p>A key (with its respective value) is added to a JSON Object (in a Redis ReJSON data type key) if
+and only if it is the last child in the <code>path</code>. The optional subcommands modify this behavior for
+both new Redis ReJSON data type keys as well as JSON Object keys in them:</p>
+<ul>
+<li><code>NX</code> - only set the key if it does not already exists</li>
+<li><code>XX</code> - only set the key if it already exists</li>
+</ul>
+<h3 id="return-value_3">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-simple-strings">Simple String</a> <code>OK</code> if executed correctly, or <a href="http://redis.io/topics/protocol#resp-bulk-strings">Null Bulk</a> if the specified <code>NX</code> or <code>XX</code>
+conditions were not met.</p>
+<h3 id="jsontype">JSON.TYPE</h3>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(1).</p>
+</blockquote>
+<h3 id="syntax_4">Syntax</h3>
+<pre><code>JSON.TYPE &lt;key&gt; [path]
+</code></pre>
+
+<h3 id="description_4">Description</h3>
+<p>Report the type of JSON value at <code>path</code>.</p>
+<p><code>path</code> defaults to root if not provided. If the <code>key</code> or <code>path</code> do not exist, null is returned.</p>
+<h3 id="return-value_4">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-simple-strings">Simple String</a>, specifically the type of value.</p>
+<h2 id="jsonnumincrby">JSON.NUMINCRBY</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(1).</p>
+</blockquote>
+<h3 id="syntax_5">Syntax</h3>
+<pre><code>JSON.NUMINCRBY &lt;key&gt; &lt;path&gt; &lt;number&gt;
+</code></pre>
+
+<h3 id="description_5">Description</h3>
+<p>Increments the number value stored at <code>path</code> by <code>number</code>.</p>
+<h3 id="return-value_5">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk String</a>, specifically the stringified new value.</p>
+<h2 id="jsonnummultby">JSON.NUMMULTBY</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(1).</p>
+</blockquote>
+<h3 id="syntax_6">Syntax</h3>
+<pre><code>JSON.NUMMULTBY &lt;key&gt; &lt;path&gt; &lt;number&gt;
+</code></pre>
+
+<h3 id="description_6">Description</h3>
+<p>Multiplies the number value stored at <code>path</code> by <code>number</code>.</p>
+<h3 id="return-value_6">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk String</a>, specifically the stringified new value.</p>
+<h2 id="jsonstrappend">JSON.STRAPPEND</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the new string's length.</p>
+</blockquote>
+<h3 id="syntax_7">Syntax</h3>
+<pre><code>JSON.STRAPPEND &lt;key&gt; [path] &lt;json-string&gt;
+</code></pre>
+
+<h3 id="description_7">Description</h3>
+<p>Append the <code>json-string</code> value(s) the string at <code>path</code>.</p>
+<p><code>path</code> defaults to root if not provided.</p>
+<h3 id="return-value_7">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the string's new length.</p>
+<h2 id="jsonstrlen">JSON.STRLEN</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(1).</p>
+</blockquote>
+<h3 id="syntax_8">Syntax</h3>
+<pre><code>JSON.STRLEN &lt;key&gt; [path]
+</code></pre>
+
+<h3 id="description_8">Description</h3>
+<p>Report the length of the JSON String at <code>path</code> in <code>key</code>.</p>
+<p><code>path</code> defaults to root if not provided. If the <code>key</code> or <code>path</code> do not exist, null is returned.</p>
+<h3 id="return-value_8">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the string's length.</p>
+<h2 id="jsonarrappend">JSON.ARRAPPEND</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(1).</p>
+</blockquote>
+<h3 id="syntax_9">Syntax</h3>
+<pre><code>JSON.ARRAPPEND &lt;key&gt; &lt;path&gt; &lt;json&gt; [json ...]
+</code></pre>
+
+<h3 id="description_9">Description</h3>
+<p>Append the <code>json</code> value(s) into the array at <code>path</code> after the last element in it.</p>
+<h3 id="return-value_9">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the array's new size.</p>
+<h2 id="jsonarrindex">JSON.ARRINDEX</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the array's size.</p>
+</blockquote>
+<h3 id="syntax_10">Syntax</h3>
+<pre><code>JSON.ARRINDEX &lt;key&gt; &lt;path&gt; &lt;json-scalar&gt; [start [stop]]
+</code></pre>
+
+<p>Search for the first occurance of a scalar JSON value in an array.</p>
+<p>The optional inclusive <code>start</code> (default 0) and exclusive <code>stop</code> (default 0, meaning that the last
+element is included) specify a slice of the array to search.</p>
+<p>Note: out of range errors are treated by rounding the index to the array's start and end. An
+inverse index range (e.g, from 1 to 0) will return unfound.</p>
+<h3 id="return-value_10">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the position of the scalar value in the array or -1 if unfound.</p>
+<h2 id="jsonarrinsert">JSON.ARRINSERT</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the array's size.</p>
+</blockquote>
+<h3 id="syntax_11">Syntax</h3>
+<pre><code>JSON.ARRINSERT &lt;key&gt; &lt;path&gt; &lt;index&gt; &lt;json&gt; [json ...]
+</code></pre>
+
+<h3 id="description_10">Description</h3>
+<p>Insert the <code>json</code> value(s) into the array at <code>path</code> before the <code>index</code> (shifts to the right).</p>
+<p>The index must be in the array's range. Inserting at <code>index</code> 0 prepends to the array. Negative
+index values are interpreted as starting from the end.</p>
+<h3 id="return-value_11">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the array's new size.</p>
+<h2 id="jsonarrlen">JSON.ARRLEN</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(1).</p>
+</blockquote>
+<h3 id="syntax_12">Syntax</h3>
+<pre><code>JSON.ARRLEN &lt;key&gt; [path]
+</code></pre>
+
+<p>Report the length of the JSON Array at <code>path</code> in <code>key</code>.</p>
+<p><code>path</code> defaults to root if not provided. If the <code>key</code> or <code>path</code> do not exist, null is returned.</p>
+<h3 id="return-value_12">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the array's length.</p>
+<h2 id="jsonarrpop">JSON.ARRPOP</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the array's size for <code>index</code> other than the last element,
+O(1) otherwise.</p>
+</blockquote>
+<h3 id="syntax_13">Syntax</h3>
+<pre><code>JSON.ARRPOP &lt;key&gt; [path [index]]
+</code></pre>
+
+<h3 id="description_11">Description</h3>
+<p>Remove and return element from the index in the array.</p>
+<p><code>path</code> defaults to root if not provided. <code>index</code> is the position in the array to start popping
+from (defaults to -1, meaning the last element). Out of range indices are rounded to their
+respective array ends. Popping an empty array yields null.</p>
+<h3 id="return-value_13">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk String</a>, specifically the popped JSON value.</p>
+<h2 id="jsonarrtrim">JSON.ARRTRIM</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the array's size.</p>
+</blockquote>
+<h3 id="syntax_14">Syntax</h3>
+<pre><code>JSON.ARRTRIM &lt;key&gt; &lt;path&gt; &lt;start&gt; &lt;stop&gt;
+</code></pre>
+
+<h3 id="description_12">Description</h3>
+<p>Trim an array so that it contains only the specified inclusive range of elements.</p>
+<p>This command is extremely forgiving and using it with out of range indexes will not produce an
+error. If <code>start</code> is larger than the array's size or <code>start</code> &gt; <code>stop</code>, the result will be an empty
+array. If <code>start</code> is &lt; 0 then it will be treated as 0. If end is larger than the end of the array,
+it will be treated like the last element in it.</p>
+<h3 id="return-value_14">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the array's new size.</p>
+<h2 id="jsonobjkeys">JSON.OBJKEYS</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the number of keys in the object.</p>
+</blockquote>
+<h3 id="syntax_15">Syntax</h3>
+<pre><code>JSON.OBJKEYS &lt;key&gt; [path]
+</code></pre>
+
+<h3 id="description_13">Description</h3>
+<p>Return the keys in the object that's referenced by <code>path</code>.</p>
+<p><code>path</code> defaults to root if not provided. If the object is empty, or either <code>key</code> or <code>path</code> do not
+exist then null is returned.</p>
+<h3 id="return-value_15">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-arrays">Array</a>, specifically the key names in the object as <a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk Strings</a>.</p>
+<h2 id="jsonobjlen">JSON.OBJLEN</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(1).</p>
+</blockquote>
+<h3 id="syntax_16">Syntax</h3>
+<pre><code>JSON.OBJLEN &lt;key&gt; [path]
+</code></pre>
+
+<h3 id="description_14">Description</h3>
+<p>Report the number of keys in the JSON Object at <code>path</code> in <code>key</code>.</p>
+<p><code>path</code> defaults to root if not provided. If the <code>key</code> or <code>path</code> do not exist, null is returned.</p>
+<h3 id="return-value_16">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the number of keys in the object.</p>
+<h2 id="jsondebug">JSON.DEBUG</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the size of the JSON value.</p>
+</blockquote>
+<h3 id="syntax_17">Syntax</h3>
+<pre><code>JSON.DEBUG &lt;subcommand &amp; arguments&gt;
+</code></pre>
+
+<h3 id="description_15">Description</h3>
+<p>Report information.</p>
+<p>Supported subcommands are:</p>
+<ul>
+<li><code>MEMORY &lt;key&gt; [path]</code> - report the memory usage in bytes of a value. <code>path</code> defaults to root if
+    not provided.</li>
+<li><code>HELP</code> - replies with a helpful message</li>
+</ul>
+<h3 id="return-value_17">Return value</h3>
+<p>Depends on the subcommand used.</p>
+<ul>
+<li><code>MEMORY</code> returns an <a href="http://redis.io/topics/protocol#resp-integers">integer</a>, specifically the size in bytes of the value</li>
+<li><code>HELP</code> returns an <a href="http://redis.io/topics/protocol#resp-arrays">array</a>, specifically with the help message</li>
+</ul>
+<h2 id="jsonforget">JSON.FORGET</h2>
+<p>This command is an alias for <a href="#jsondel"><code>JSON.DEL</code></a>.</p>
+<h2 id="jsonresp">JSON.RESP</h2>
+<blockquote>
+<p><strong>Available since 1.0.0.</strong><br />
+<strong>Time complexity:</strong>  O(N), where N is the size of the JSON value.</p>
+</blockquote>
+<h3 id="syntax_18">Syntax</h3>
+<pre><code>JSON.RESP &lt;key&gt; [path]
+</code></pre>
+
+<h3 id="description_16">Description</h3>
+<p>Return the JSON in <code>key</code> in <a href="http://redis.io/topics/protocol">Redis Serialization Protocol (RESP)</a>.</p>
+<p><code>path</code> defaults to root if not provided. This command uses the following mapping from JSON to RESP:
+-   JSON Null is mapped to the <a href="http://redis.io/topics/protocol">RESP Null Bulk String</a>
+-   JSON <code>false</code> and <code>true</code> values are mapped to the respective <a href="http://redis.io/topics/protocol#resp-simple-strings">RESP Simple Strings</a>
+-   JSON Numbers are mapped to <a href="http://redis.io/topics/protocol#resp-integers">RESP Integers</a> or <a href="http://redis.io/topics/protocol#resp-bulk-strings">RESP Bulk Strings</a>, depending on type
+-   JSON Strings are mapped to <a href="http://redis.io/topics/protocol#resp-bulk-strings">RESP Bulk Strings</a>
+-   JSON Arrays are represented as <a href="http://redis.io/topics/protocol#resp-arrays">RESP Arrays</a> in which first element is the
+          <a href="http://redis.io/topics/protocol#resp-simple-strings">simple string</a> <code>[</code> followed by the array's elements
+-   JSON Objects are represented as <a href="http://redis.io/topics/protocol#resp-arrays">RESP Arrays</a> in which first element is the
+          <a href="http://redis.io/topics/protocol#resp-simple-strings">simple string</a> <code>{</code>. Each successive entry represents a key-value pair as a two-entries
+          <a href="http://redis.io/topics/protocol#resp-arrays">array</a> of <a href="http://redis.io/topics/protocol#resp-bulk-strings">bulk strings</a>.</p>
+<h3 id="return-value_18">Return value</h3>
+<p><a href="http://redis.io/topics/protocol#resp-arrays">Array</a>, specifically the JSON's RESP form as detailed.</p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href=".." title="Quickstart">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Quickstart
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../path/" title="Path syntax">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Path syntax
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '..';
+      var repo_id  = 'RedisLabsModules/ReJSON';
+    </script>
+    <script src="../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+      <script>
+        (function(i,s,o,g,r,a,m){
+          i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||
+          []).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;
+          m.parentNode.insertBefore(a,m)
+        })(window, document,
+          'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        /* General initialization */
+        ga('create', 'UA-89559992-1', 'rejson');
+        ga('set', 'anonymizeIp', true);
+        ga('send', 'pageview');
+        /* Track outbound links */
+        var buttons = document.querySelectorAll('a');
+        Array.prototype.map.call(buttons, function(item) {
+          if (item.host != document.location.host) {
+            item.addEventListener('click', function() {
+              var action = item.getAttribute('data-action') || 'follow';
+              ga('send', 'event', 'outbound', action, item.href);
+            });
+          }
+        });
+        /* Register handler to log search on blur */
+        var query = document.querySelector('.query');
+        query.addEventListener('blur', function() {
+          if (this.value) {
+            var path = document.location.pathname;
+            ga('send', 'pageview', path + '?q=' + this.value);
+          }
+        });
+      </script>
+    
+  </body>
+</html>

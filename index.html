@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>ReJSON Documentation</title>
+      
+      
+      
+        <link rel="canonical" href="https://redislabsmodules.github.io/ReJSON/">
+      
+      
+    
+    <meta property="og:url" content="https://redislabsmodules.github.io/ReJSON/">
+    <meta property="og:title" content="ReJSON Documentation">
+    <meta property="og:image" content="https://redislabsmodules.github.io/ReJSON//./">
+    <meta name="apple-mobile-web-app-title" content="ReJSON Documentation">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('./assets/fonts/icon.eot?52m981');
+      	src: url('./assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('./assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('./assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('./assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="./assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+    <script src="./assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+          </span>
+        
+        ReJSON Documentation
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/RedisLabsModules/ReJSON" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          ReJSON Documentation
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          RedisLabsModules/ReJSON
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/RedisLabsModules/ReJSON/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/RedisLabsModules/ReJSON/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="current" title="Quickstart" href=".">
+      Quickstart
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Quickstart" href="#quickstart">
+                Quickstart
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Building the module" href="#building-the-module">
+                Building the module
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Loading the module to Redis" href="#loading-the-module-to-redis">
+                Loading the module to Redis
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Using ReJSON" href="#using-rejson">
+                Using ReJSON
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Commands" href="commands/">
+      Commands
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Path syntax" href="path/">
+      Path syntax
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="RAM usage" href="ram/">
+      RAM usage
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Developer notes" href="developer/">
+      Developer notes
+    </a>
+    
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="rejson-a-json-data-type-for-redis">ReJSON - a JSON data type for Redis</h1>
+<p>ReJSON is a <a href="./1">Redis</a> module that implements
+<a href="./2">ECMA-404 The JSON Data Interchange Standard</a> as a native data type. It allows storing, updating
+and fetching JSON values from Redis keys (documents). The JSON values are managed as binary objects,
+thus allowing Redis-blazing performance. </p>
+<p>ReJSON is developed with &lt;3 at <a href="https://redislabs.com">Redis Labs</a>. The source code is available
+from: https://github.com/RedisLabsModules/ReJSON</p>
+<h2 id="quickstart">Quickstart</h2>
+<ol>
+<li><a href="#building-the-module-library">Build the ReJSON module library</a></li>
+<li><a href="#loading-the-module-to-redis">Load ReJSON to Redis</a></li>
+<li><a href="#using-rejson">Use it from <strong>any</strong> Redis client</a>, e.g.:</li>
+</ol>
+<p><img alt="ReJSON with redis-cli" src="./images/demo.gif" /></p>
+<h2 id="building-the-module">Building the module</h2>
+<h3 id="linux">Linux</h3>
+<p>Prerequirements:</p>
+<ul>
+<li>The ReJSON repository: <code>git clone https://github.com/RedisLabsModules/rejson.git</code></li>
+<li>The <code>build-essential</code> and <code>cmake</code> packages: <code>apt-get install build-essential cmake</code></li>
+</ul>
+<p>This module employs standard CMake tooling. Assuming that the repository's directory is at
+<code>~/rejson</code>, navigate to it and run the script <a href="./bootstrap.sh"><code>/bootstrap.sh</code></a> followed by <code>cmake</code>.
+The output should look something like:</p>
+<pre><code class="bash">~/rejson$ ./bootstrap.sh
+-- The C compiler identification is GNU 5.4.0
+...
+!! 'REDIS_SERVER_PATH' variable not defined (use cmake -D) - module unit test will not be run
+-- Configuring done
+-- Generating done
+-- Build files have been written to: rejson/build
+~/rejson$ cmake --build build --target rejson
+Scanning dependencies of target rmobject
+...
+[100%] Linking C shared library rejson/lib/rejson.so
+[100%] Built target rejson
+</code></pre>
+
+<p>Congratulations! You can find the compiled module library at <code>lib/rejson.so</code>.</p>
+<h3 id="macosx">MacOSX</h3>
+<p>TBD</p>
+<h3 id="windows">Windows</h3>
+<p>Yeah, right :)</p>
+<h2 id="loading-the-module-to-redis">Loading the module to Redis</h2>
+<p>Prerequirements:</p>
+<ul>
+<li><a href="./3">Redis v4.0 or above</a></li>
+</ul>
+<p>The recommended way have Redis load the module is during startup by by adding the following to the
+<code>redis.conf</code> file:</p>
+<pre><code>loadmodule /path/to/module/rejson.so
+</code></pre>
+
+<p>In the line above replace <code>/path/to/module/rejson.so</code> with the actual path to the module's library.
+Alternatively you, you can have Redis load the module using the following command line argument
+syntax:</p>
+<pre><code class="bash">~/$ redis-server --loadmodule /path/to/module/rejson.so
+</code></pre>
+
+<p>Lastly, you can also use the <a href="./4"><code>MODULE LOAD</code></a> command. Note, however, that <code>MODULE LOAD</code> is a
+dangerous command and may be blocked/deprecated in the future due to security considerations.</p>
+<p>Once the module has been loaded successfully, the Redis log should have lines similar to:</p>
+<pre><code>...
+1877:M 23 Dec 02:02:59.725 # &lt;ReJSON&gt; JSON data type for Redis - v1.0.0 [encver 0]
+1877:M 23 Dec 02:02:59.725 * Module 'ReJSON' loaded from /foo/bar/rejson/lib/rejson.so
+...
+</code></pre>
+
+<h2 id="using-rejson">Using ReJSON</h2>
+<p>Before using ReJSON you should familiarize yourself with its commands and syntax as detailed in the
+<a href="commands/">commands refernce</a> document. However, to quickly get started just review this
+section and get these two things:</p>
+<ol>
+<li>A Redis server running the the module (see <a href="#building-the-module-library">building</a> and
+    <a href="#loading-the-module-to-Redis">loading</a> for instructions)</li>
+<li>Any <a href="./5">Redis client</a></li>
+</ol>
+<h3 id="with-redis-cli">With <code>redis-cli</code></h3>
+<p>This example will use <a href="./6"><code>redis-cli</code></a> as the Redis client. The first ReJSON command to try out is
+<a href="commands/#jsonset"><code>JSON.SET</code></a>, which sets a Redis key with a JSON value. All JSON values can be
+used, for example a string:</p>
+<pre><code>127.0.0.1:6379&gt; JSON.SET foo . '&quot;bar&quot;'
+OK
+127.0.0.1:6379&gt; JSON.GET foo
+&quot;\&quot;bar\&quot;&quot;
+127.0.0.1:6379&gt; JSON.TYPE foo .
+string
+</code></pre>
+
+<p><a href="commands/#jsonget"><code>JSON.GET</code></a> and <a href="commands/#jsontype"><code>JSON.TYPE</code></a> do literally that
+regardless of the value's type, but you should really check out <code>JSON.GET</code> prettifying powers. Note
+how the commands are given the period character, i.e. <code>.</code>. This is the
+<a href="path/">path</a> to the value in the ReJSON data type and in this case it just means
+the root. A couple more of string operations:</p>
+<pre><code>127.0.0.1:6379&gt; JSON.STRLEN foo .
+3
+127.0.0.1:6379&gt; JSON.STRAPPEND foo . '&quot;baz&quot;'
+6
+127.0.0.1:6379&gt; JSON.GET foo
+&quot;\&quot;barbaz\&quot;&quot;
+
+</code></pre>
+
+<p><a href="commands/#jsonstrlen"><code>JSON.STRLEN</code></a> tells you the length of the string, and you can append
+another string to it with <a href="commands/#jsonstrappend"><code>JSON.STRAPPEND</code></a>. Numbers can be
+<a href="commands/#jsonnumincrby">incremented</a> and <a href="commands/#jsonnummultby">multiplied</a>:</p>
+<pre><code>127.0.0.1:6379&gt; JSON.SET num . 0
+OK
+127.0.0.1:6379&gt; JSON.NUMINCRBY num . 1
+&quot;1&quot;
+127.0.0.1:6379&gt; JSON.NUMINCRBY num . 1.5
+&quot;2.5&quot;
+127.0.0.1:6379&gt; JSON.NUMINCRBY num . -0.75
+&quot;1.75&quot;
+127.0.0.1:6379&gt; JSON.NUMMULTBY num . 24
+&quot;42&quot;
+</code></pre>
+
+<p>Of course, a more interesting example would involve an array or maybe an object. Because or isn't
+xor here goes:</p>
+<pre><code>127.0.0.1:6379&gt; JSON.SET amoreinterestingexample . '[ true, { &quot;answer&quot;: 42 }, null ]'
+OK
+127.0.0.1:6379&gt; JSON.GET amoreinterestingexample
+&quot;[true,{\&quot;answer\&quot;:42},null]&quot;
+127.0.0.1:6379&gt; JSON.GET amoreinterestingexample [1].answer
+&quot;42&quot;
+127.0.0.1:6379&gt; JSON.DEL amoreinterestingexample [-1]
+1
+127.0.0.1:6379&gt; JSON.GET amoreinterestingexample
+&quot;[true,{\&quot;answer\&quot;:42}]&quot;
+</code></pre>
+
+<p>The handy <a href="commands/#jsondel"><code>JSON.DEL</code></a> command deletes anything you tell it to. Arrays can be
+manipulated with a dedicated subset of ReJSON commands:</p>
+<pre><code>127.0.0.1:6379&gt; JSON.SET arr . []
+OK
+127.0.0.1:6379&gt; JSON.ARRAPPEND arr . 0
+(integer) 1
+127.0.0.1:6379&gt; JSON.GET arr
+&quot;[0]&quot;
+127.0.0.1:6379&gt; JSON.ARRINSERT arr . 0 -2 -1
+(integer) 3
+127.0.0.1:6379&gt; JSON.GET arr
+&quot;[-2,-1,0]&quot;
+127.0.0.1:6379&gt; JSON.ARRTRIM arr . 1 1
+1
+127.0.0.1:6379&gt; JSON.GET arr
+&quot;[-1]&quot;
+127.0.0.1:6379&gt; JSON.ARRPOP arr
+&quot;-1&quot;
+127.0.0.1:6379&gt; JSON.ARRPOP arr
+(nil)
+</code></pre>
+
+<p>And objects have their own commands too:</p>
+<pre><code>127.0.0.1:6379&gt; JSON.SET obj . '{&quot;name&quot;:&quot;Leonard Cohen&quot;,&quot;lastSeen&quot;:1478476800,&quot;loggedOut&quot;: true}'
+OK
+127.0.0.1:6379&gt; JSON.OBJLEN obj .
+(integer) 3
+127.0.0.1:6379&gt; JSON.OBJKEYS obj .
+1) &quot;name&quot;
+2) &quot;lastSeen&quot;
+3) &quot;loggedOut&quot;
+</code></pre>
+
+<h3 id="with-any-other-client">With any other client</h3>
+<p>Unless your <a href="./5">Redis client</a> already supports Redis modules (unlikely) or ReJSON specifically (even
+unlikelier), you should be ok using its ability to send raw Redis commands. Depending on your client
+of choice the exact method for doing that may vary.</p>
+<h4 id="python-example">Python example</h4>
+<p>This code snippet shows how to use ReJSON from Python with
+<a href="https://github.com/andymccurdy/redis-py">redis-py</a>:</p>
+<pre><code class="Python">import redis
+import json
+
+data = {
+    'foo': 'bar'
+}
+
+r = redis.StrictRedis()
+r.execute_command('JSON.SET', 'doc', '.', json.dumps(data))
+reply = json.loads(r.execute_command('JSON.GET', 'doc'))
+</code></pre>
+
+<p>For a more comprehensive example, including a simple Python wrapper for ReJSON, see
+<a href="./examples/python">/examples/python</a>.</p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+    </div>
+    <div class="next">
+      
+        <a href="commands/" title="Commands">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Commands
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '.';
+      var repo_id  = 'RedisLabsModules/ReJSON';
+    </script>
+    <script src="./assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+      <script>
+        (function(i,s,o,g,r,a,m){
+          i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||
+          []).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;
+          m.parentNode.insertBefore(a,m)
+        })(window, document,
+          'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        /* General initialization */
+        ga('create', 'UA-89559992-1', 'rejson');
+        ga('set', 'anonymizeIp', true);
+        ga('send', 'pageview');
+        /* Track outbound links */
+        var buttons = document.querySelectorAll('a');
+        Array.prototype.map.call(buttons, function(item) {
+          if (item.host != document.location.host) {
+            item.addEventListener('click', function() {
+              var action = item.getAttribute('data-action') || 'follow';
+              ga('send', 'event', 'outbound', action, item.href);
+            });
+          }
+        });
+        /* Register handler to log search on blur */
+        var query = document.querySelector('.query');
+        query.addEventListener('blur', function() {
+          if (this.value) {
+            var path = document.location.pathname;
+            ga('send', 'pageview', path + '?q=' + this.value);
+          }
+        });
+      </script>
+    
+  </body>
+</html>
