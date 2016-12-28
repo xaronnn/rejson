@@ -209,12 +209,6 @@
         <ul>
           
             <li class="anchor">
-              <a title="Design" href="#design">
-                Design
-              </a>
-            </li>
-          
-            <li class="anchor">
               <a title="Testing" href="#testing">
                 Testing
               </a>
@@ -237,16 +231,16 @@
         <div class="wrapper">
           
           <h1 id="developer-notes">Developer notes</h1>
-<h2 id="design">Design</h2>
-<p>You can find some information about ReJSON's design in <a href="design.md">design.md</a>.</p>
 <h2 id="testing">Testing</h2>
-<p>Python is required for ReJSON's module test. Install it with <code>apt-get install python</code>.</p>
-<p>Also, the module's test requires a path to the <code>redis-server</code> executable. The path is stored in the
-<code>REDIS_SERVER_PATH</code> variable and can be set using CMake's <code>-D</code> switch as follows:</p>
+<p>Python is required for ReJSON's module test. Install it with <code>apt-get install python</code>. You'll also
+need to have <a href="https://github.com/andymccurdy/redis-py">redis-py</a> installed. The easiest way to get
+it is using pip and running <code>pip install redis</code>.</p>
+<p>Lastly, the module's test requires a path to the <code>redis-server</code> executable. The path is stored
+in the <code>REDIS_SERVER_PATH</code> variable and can be set using CMake's <code>-D</code> switch as follows:</p>
 <pre><code class="bash">~/rejson$ cmake -D REDIS_SERVER_PATH=/path/to/redis-server --build build
 </code></pre>
 
-<p>And then run the tests:</p>
+<p>Now, you can run the tests:</p>
 <pre><code class="bash">~/rejson$ cmake --build build --target test
 ...
 </code></pre>

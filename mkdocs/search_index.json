@@ -492,7 +492,7 @@
         }, 
         {
             "location": "/developer/", 
-            "text": "Developer notes\n\n\nDesign\n\n\nYou can find some information about ReJSON's design in \ndesign.md\n.\n\n\nTesting\n\n\nPython is required for ReJSON's module test. Install it with \napt-get install python\n.\n\n\nAlso, the module's test requires a path to the \nredis-server\n executable. The path is stored in the\n\nREDIS_SERVER_PATH\n variable and can be set using CMake's \n-D\n switch as follows:\n\n\n~/rejson$ cmake -D REDIS_SERVER_PATH=/path/to/redis-server --build build\n\n\n\n\nAnd then run the tests:\n\n\n~/rejson$ cmake --build build --target test\n...", 
+            "text": "Developer notes\n\n\nTesting\n\n\nPython is required for ReJSON's module test. Install it with \napt-get install python\n. You'll also\nneed to have \nredis-py\n installed. The easiest way to get\nit is using pip and running \npip install redis\n.\n\n\nLastly, the module's test requires a path to the \nredis-server\n executable. The path is stored\nin the \nREDIS_SERVER_PATH\n variable and can be set using CMake's \n-D\n switch as follows:\n\n\n~/rejson$ cmake -D REDIS_SERVER_PATH=/path/to/redis-server --build build\n\n\n\n\nNow, you can run the tests:\n\n\n~/rejson$ cmake --build build --target test\n...", 
             "title": "Developer notes"
         }, 
         {
@@ -501,13 +501,8 @@
             "title": "Developer notes"
         }, 
         {
-            "location": "/developer/#design", 
-            "text": "You can find some information about ReJSON's design in  design.md .", 
-            "title": "Design"
-        }, 
-        {
             "location": "/developer/#testing", 
-            "text": "Python is required for ReJSON's module test. Install it with  apt-get install python .  Also, the module's test requires a path to the  redis-server  executable. The path is stored in the REDIS_SERVER_PATH  variable and can be set using CMake's  -D  switch as follows:  ~/rejson$ cmake -D REDIS_SERVER_PATH=/path/to/redis-server --build build  And then run the tests:  ~/rejson$ cmake --build build --target test\n...", 
+            "text": "Python is required for ReJSON's module test. Install it with  apt-get install python . You'll also\nneed to have  redis-py  installed. The easiest way to get\nit is using pip and running  pip install redis .  Lastly, the module's test requires a path to the  redis-server  executable. The path is stored\nin the  REDIS_SERVER_PATH  variable and can be set using CMake's  -D  switch as follows:  ~/rejson$ cmake -D REDIS_SERVER_PATH=/path/to/redis-server --build build  Now, you can run the tests:  ~/rejson$ cmake --build build --target test\n...", 
             "title": "Testing"
         }
     ]
