@@ -27,6 +27,14 @@
 
     
     <url>
+     <loc>https://redislabsmodules.github.io/ReJSON//performance/</loc>
+     <lastmod>2016-12-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
      <loc>https://redislabsmodules.github.io/ReJSON//ram/</loc>
      <lastmod>2016-12-29</lastmod>
      <changefreq>daily</changefreq>
