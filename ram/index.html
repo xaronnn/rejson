@@ -299,8 +299,37 @@ OK
 (integer) 208
 </code></pre>
 
+<p>This table gives the size (in bytes) of a few of the test files on disk and in RAM:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Size on disk</th>
+<th>JSON.DEBUG MEMORY</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/test/files/pass-100.json</td>
+<td>380</td>
+<td>1079</td>
+</tr>
+<tr>
+<td>/test/files/pass-jsonsl-1.json</td>
+<td>1441</td>
+<td>3666</td>
+</tr>
+<tr>
+<td>/test/files/pass-json-parser-0000.json</td>
+<td>3468</td>
+<td>7209</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
 <p>Note: in the current version, deleting values from containers <strong>does not</strong> free the container's
 allocated memory.</p>
+</blockquote>
           <aside class="copyright" role="note">
             
             Documentation built with

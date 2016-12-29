@@ -200,18 +200,6 @@
         <ul>
           
             <li class="anchor">
-              <a title="Baseline" href="#baseline">
-                Baseline
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="The empty string" href="#the-empty-string">
-                The empty string
-              </a>
-            </li>
-          
-            <li class="anchor">
               <a title="An smallish object" href="#an-smallish-object">
                 An smallish object
               </a>
@@ -232,6 +220,18 @@
             <li class="anchor">
               <a title="Number operations" href="#number-operations">
                 Number operations
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Baseline" href="#baseline">
+                Baseline
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="The empty string" href="#the-empty-string">
+                The empty string
               </a>
             </li>
           
@@ -286,6 +286,26 @@ All tests are non-pipelined.</p>
 <p>NOTE: the results below are measured using the preview version of ReJSON, which is still very much
 unoptimized :)</p>
 </blockquote>
+<h2 id="an-smallish-object">An smallish object</h2>
+<p>We test a JSON value that, while purely synthetic, is interesting. The test subject is
+<a href="../test/files/pass-100.json">/test/files/pass-100.json</a>, who weighs in at 380 bytes and is nested.
+We first test SETting it, then GETting it using several different paths:</p>
+<p><img alt="ReJSONBenchmark pass-100.json" src="../images/bench_pass_100.png" /></p>
+<p><img alt="ReJSONBenchmark pass-100.json percentiles" src="../images/bench_pass_100_p.png" /></p>
+<h2 id="a-bigger-array">A bigger array</h2>
+<p>Moving on to bigger values, we use the 1.4 kB array in
+<a href="../test/files/pass-jsonsl-1.json">/test/files/pass-jsonsl-1.json</a>:</p>
+<p><img alt="ReJSONBenchmark pass-jsonsl-1.json" src="../images/bench_pass_jsonsl_1.png" /></p>
+<p><img alt="ReJSONBenchmark pass-jsonsl-1.json percentiles" src="../images/bench_pass_jsonsl_1_p.png" /></p>
+<h2 id="a-largish-object">A largish object</h2>
+<p>More of the same to wrap up, now we'll take on a behemoth of no less than 3.5 kB as given by
+<a href="../test/files/pass-json-parser-0000.json">/test/files/pass-json-parser-0000.json</a>:</p>
+<p><img alt="ReJSONBenchmark pass-json-parser-0000.json" src="../images/bench_pass_json_parser_0000.png" /></p>
+<p><img alt="ReJSONBenchmark pass-json-parser-0000.json percentiles" src="../images/bench_pass_json_parser_0000_p.png" /></p>
+<h2 id="number-operations">Number operations</h2>
+<p>Last but not least, some adding and multiplying:</p>
+<p><img alt="ReJSONBenchmark number operations" src="../images/bench_numbers.png" /></p>
+<p><img alt="ReJSONBenchmark number operations percentiles" src="../images/bench_numbers_p.png" /></p>
 <h2 id="baseline">Baseline</h2>
 <p>To establish a baseline we'll use the Redis <a href="https://redis.io/commands/ping"><code>PING</code></a> command.
 First, lets see what <code>redis-benchmark</code> reports:</p>
@@ -308,31 +328,11 @@ are the results, which indicate that 16 workers yield the best throughput:</p>
 <p>Note how our benchmarking tool does slightly worse in PINGing producing only 116K ops, compared to
 <code>redis-cli</code>'s 140K.</p>
 <h2 id="the-empty-string">The empty string</h2>
-<p>The first ReJSON benchmark is that of setting and getting an empty string - a value that's only two
+<p>Another ReJSON benchmark is that of setting and getting an empty string - a value that's only two
 bytes long (i.e. <code>""</code>). Granted, that's not very useful, but it teaches us something about the basic
 performance of the module:</p>
 <p><img alt="ReJSONBenchmark empty string" src="../images/bench_empty_string.png" /></p>
 <p><img alt="ReJSONBenchmark empty string percentiles" src="../images/bench_empty_string_p.png" /></p>
-<h2 id="an-smallish-object">An smallish object</h2>
-<p>Next we test a value that, while purely synthetic, is more interesting. The test subject is
-<a href="../test/files/pass-100.json">/test/files/pass-100.json</a>, who weighs in at 380 bytes and is nested.
-We first test SETting it, then GETting it using several different paths:</p>
-<p><img alt="ReJSONBenchmark pass-100.json" src="../images/bench_pass_100.png" /></p>
-<p><img alt="ReJSONBenchmark pass-100.json percentiles" src="../images/bench_pass_100_p.png" /></p>
-<h2 id="a-bigger-array">A bigger array</h2>
-<p>Moving on to bigger values, we use the 1.4 kB array in
-<a href="../test/files/pass-jsonsl-1.json">/test/files/pass-jsonsl-1.json</a>:</p>
-<p><img alt="ReJSONBenchmark pass-jsonsl-1.json" src="../images/bench_pass_jsonsl_1.png" /></p>
-<p><img alt="ReJSONBenchmark pass-jsonsl-1.json percentiles" src="../images/bench_pass_jsonsl_1_p.png" /></p>
-<h2 id="a-largish-object">A largish object</h2>
-<p>More of the same to wrap up, now we'll take on a behemoth of no less than 3.5 kB as given by
-<a href="../test/files/pass-json-parser-0000.json">/test/files/pass-json-parser-0000.json</a>:</p>
-<p><img alt="ReJSONBenchmark pass-json-parser-0000.json" src="../images/bench_pass_json_parser_0000.png" /></p>
-<p><img alt="ReJSONBenchmark pass-json-parser-0000.json percentiles" src="../images/bench_pass_json_parser_0000_p.png" /></p>
-<h2 id="number-operations">Number operations</h2>
-<p>Last but not least, some adding and multiplying:</p>
-<p><img alt="ReJSONBenchmark number operations" src="../images/bench_numbers.png" /></p>
-<p><img alt="ReJSONBenchmark number operations percentiles" src="../images/bench_numbers_p.png" /></p>
 <h2 id="raw-results">Raw results</h2>
 <p>The following are the raw results from the benchmark in CSV format:</p>
 <pre><code>title,concurrency,rate,average latency,50.00%-tile,90.00%-tile,95.00%-tile,99.00%-tile,99.50%-tile,100.00%-tile
