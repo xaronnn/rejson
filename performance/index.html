@@ -288,18 +288,19 @@ unoptimized :)</p>
 </blockquote>
 <h2 id="an-smallish-object">An smallish object</h2>
 <p>We test a JSON value that, while purely synthetic, is interesting. The test subject is
-<a href="../test/files/pass-100.json">/test/files/pass-100.json</a>, who weighs in at 380 bytes and is nested.
-We first test SETting it, then GETting it using several different paths:</p>
+<a href="https://github.com/RedisLabsModules/rejson/blob/master/test/files/pass-100.json">/test/files/pass-100.json</a>,
+who weighs in at 380 bytes and is nested. We first test SETting it, then GETting it using several
+different paths:</p>
 <p><img alt="ReJSONBenchmark pass-100.json" src="../images/bench_pass_100.png" /></p>
 <p><img alt="ReJSONBenchmark pass-100.json percentiles" src="../images/bench_pass_100_p.png" /></p>
 <h2 id="a-bigger-array">A bigger array</h2>
 <p>Moving on to bigger values, we use the 1.4 kB array in
-<a href="../test/files/pass-jsonsl-1.json">/test/files/pass-jsonsl-1.json</a>:</p>
+<a href="https://github.com/RedisLabsModules/rejson/blob/master/test/files/pass-jsonsl-1.json">/test/files/pass-jsonsl-1.json</a>:</p>
 <p><img alt="ReJSONBenchmark pass-jsonsl-1.json" src="../images/bench_pass_jsonsl_1.png" /></p>
 <p><img alt="ReJSONBenchmark pass-jsonsl-1.json percentiles" src="../images/bench_pass_jsonsl_1_p.png" /></p>
 <h2 id="a-largish-object">A largish object</h2>
 <p>More of the same to wrap up, now we'll take on a behemoth of no less than 3.5 kB as given by
-<a href="../test/files/pass-json-parser-0000.json">/test/files/pass-json-parser-0000.json</a>:</p>
+<a href="https://github.com/RedisLabsModules/rejson/blob/master/test/files/pass-json-parser-0000.json">/test/files/pass-json-parser-0000.json</a>:</p>
 <p><img alt="ReJSONBenchmark pass-json-parser-0000.json" src="../images/bench_pass_json_parser_0000.png" /></p>
 <p><img alt="ReJSONBenchmark pass-json-parser-0000.json percentiles" src="../images/bench_pass_json_parser_0000_p.png" /></p>
 <h2 id="number-operations">Number operations</h2>
