@@ -299,13 +299,16 @@ OK
 (integer) 208
 </code></pre>
 
-<p>This table gives the size (in bytes) of a few of the test files on disk and in RAM:</p>
+<p>This table gives the size (in bytes) of a few of the test files on disk and when stored using
+ReJSON. The <em>MessagePack</em> column is for reference purposes and reflects the length of the value
+when stored using MessagePack.</p>
 <table>
 <thead>
 <tr>
 <th>File</th>
-<th>Size on disk</th>
-<th>JSON.DEBUG MEMORY</th>
+<th>Filesize</th>
+<th>ReJSON</th>
+<th>MessagePack</th>
 </tr>
 </thead>
 <tbody>
@@ -313,16 +316,31 @@ OK
 <td>/test/files/pass-100.json</td>
 <td>380</td>
 <td>1079</td>
+<td>140</td>
 </tr>
 <tr>
 <td>/test/files/pass-jsonsl-1.json</td>
 <td>1441</td>
 <td>3666</td>
+<td>753</td>
 </tr>
 <tr>
 <td>/test/files/pass-json-parser-0000.json</td>
 <td>3468</td>
 <td>7209</td>
+<td>2393</td>
+</tr>
+<tr>
+<td>/test/files/pass-jsonsl-yahoo2.json</td>
+<td>18446</td>
+<td>37469</td>
+<td>16869</td>
+</tr>
+<tr>
+<td>/test/files/pass-jsonsl-yelp.json</td>
+<td>39491</td>
+<td>75341</td>
+<td>35469</td>
 </tr>
 </tbody>
 </table>
