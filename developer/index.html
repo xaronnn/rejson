@@ -223,6 +223,12 @@
               </a>
             </li>
           
+            <li class="anchor">
+              <a title="Making the docs" href="#making-the-docs">
+                Making the docs
+              </a>
+            </li>
+          
         </ul>
       
     
@@ -253,6 +259,14 @@ in the <code>REDIS_SERVER_PATH</code> variable and can be set using CMake's <cod
 <pre><code class="bash">~/rejson$ cmake --build build --target test
 ...
 </code></pre>
+
+<h2 id="making-the-docs">Making the docs</h2>
+<ol>
+<li>You'll need <code>mkdocs</code>, install it with: <code>pip install mkdocs</code></li>
+<li>You'll also need the theme so: <code>pip install mkdocs-material</code></li>
+<li>To serve locally do: <code>mkdocs build &amp;&amp; mkdocs serve</code></li>
+<li>To upload to GitHub Pages do: <code>mkdocs gh-deploy</code></li>
+</ol>
           <aside class="copyright" role="note">
             
             Documentation built with
