@@ -13,7 +13,7 @@
       
         <link rel="shortcut icon" href="./assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.3.0">
+      <meta name="generator" content="mkdocs-0.16.2, mkdocs-material-1.5.0">
     
     
       
@@ -24,7 +24,7 @@
       <script src="./assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="./assets/stylesheets/application-1d1da4857d.css">
+      <link rel="stylesheet" href="./assets/stylesheets/application-d848f886dc.css">
       
         <link rel="stylesheet" href="./assets/stylesheets/application-66fa0d9bba.palette.css">
       
@@ -91,12 +91,18 @@
   <div class="md-search__overlay"></div>
   <div class="md-search__inner">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
       <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result"></div>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
       </div>
     </div>
   </div>
@@ -291,6 +297,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#rejson-clients" title="ReJSON clients" class="md-nav__link">
+    ReJSON clients
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -468,6 +481,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#rejson-clients" title="ReJSON clients" class="md-nav__link">
+    ReJSON clients
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -489,15 +509,15 @@
                 
                 
                 <h1 id="rejson-a-json-data-type-for-redis">ReJSON - a JSON data type for Redis</h1>
-<p>ReJSON is a <a href="./1">Redis</a> module that implements
-<a href="./2">ECMA-404 The JSON Data Interchange Standard</a> as a native data type. It allows storing, updating
+<p>ReJSON is a <a href="https://redis.io/">Redis</a> module that implements
+<a href="http://json.org/">ECMA-404 The JSON Data Interchange Standard</a> as a native data type. It allows storing, updating
 and fetching JSON values from Redis keys (documents). The JSON values are managed as binary objects,
 thus allowing Redis-blazing performance. </p>
 <p>ReJSON is developed with &lt;3 at <a href="https://redislabs.com">Redis Labs</a>. The source code is available
 from: https://github.com/RedisLabsModules/ReJSON</p>
 <h2 id="quickstart">Quickstart</h2>
 <ol>
-<li><a href="#building-the-module-library">Build the ReJSON module library</a></li>
+<li><a href="#building-the-module">Build the ReJSON module library</a></li>
 <li><a href="#loading-the-module-to-redis">Load ReJSON to Redis</a></li>
 <li><a href="#using-rejson">Use it from <strong>any</strong> Redis client</a>, e.g.:</li>
 </ol>
@@ -511,7 +531,7 @@ from: https://github.com/RedisLabsModules/ReJSON</p>
 <li>CMake (v3.0.0 or greater): <code>apt-get install cmake</code></li>
 </ul>
 <p>This module employs standard CMake tooling. Assuming that the repository's directory is at
-<code>~/rejson</code>, navigate to it and run the script <a href="./bootstrap.sh"><code>/bootstrap.sh</code></a>:</p>
+<code>~/rejson</code>, navigate to it and run the script <code>bootstrap.sh</code> from the project's root:</p>
 <pre><code class="bash">~/rejson$ ./bootstrap.sh
 -- The C compiler identification is GNU 5.4.0
 ...
@@ -539,7 +559,7 @@ Scanning dependencies of target rmobject
 <h2 id="loading-the-module-to-redis">Loading the module to Redis</h2>
 <p>Prerequirements:</p>
 <ul>
-<li><a href="./3">Redis v4.0 or above</a></li>
+<li><a href="http://redis.io/download">Redis v4.0 or above</a></li>
 </ul>
 <p>The recommended way have Redis load the module is during startup by by adding the following to the
 <code>redis.conf</code> file:</p>
@@ -552,8 +572,9 @@ syntax:</p>
 <pre><code class="bash">~/$ redis-server --loadmodule /path/to/module/rejson.so
 </code></pre>
 
-<p>Lastly, you can also use the <a href="./4"><code>MODULE LOAD</code></a> command. Note, however, that <code>MODULE LOAD</code> is a
-dangerous command and may be blocked/deprecated in the future due to security considerations.</p>
+<p>Lastly, you can also use the <a href="http://redis.io/commands/module-load"><code>MODULE LOAD</code></a> command. Note,
+however, that <code>MODULE LOAD</code> is a dangerous command and may be blocked/deprecated in the future due
+to security considerations.</p>
 <p>Once the module has been loaded successfully, the Redis log should have lines similar to:</p>
 <pre><code>...
 1877:M 23 Dec 02:02:59.725 # &lt;ReJSON&gt; JSON data type for Redis - v1.0.0 [encver 0]
@@ -568,12 +589,12 @@ section and get these two things:</p>
 <ol>
 <li>A Redis server running the the module (see <a href="#building-the-module-library">building</a> and
     <a href="#loading-the-module-to-Redis">loading</a> for instructions)</li>
-<li>Any <a href="./5">Redis client</a></li>
+<li>Any <a href="http://redis.io/clients">Redis</a> or <a href="#rejson-clients">ReJSON client</a></li>
 </ol>
 <h3 id="with-redis-cli">With <code>redis-cli</code></h3>
-<p>This example will use <a href="./6"><code>redis-cli</code></a> as the Redis client. The first ReJSON command to try out is
-<a href="commands/#jsonset"><code>JSON.SET</code></a>, which sets a Redis key with a JSON value. All JSON values can be
-used, for example a string:</p>
+<p>This example will use <a href="http://redis.io/topics/rediscli"><code>redis-cli</code></a> as the Redis client. The first
+ReJSON command to try out is <a href="commands/#jsonset"><code>JSON.SET</code></a>, which sets a Redis key with a JSON
+value. All JSON values can be used, for example a string:</p>
 <pre><code>127.0.0.1:6379&gt; JSON.SET foo . '&quot;bar&quot;'
 OK
 127.0.0.1:6379&gt; JSON.GET foo
@@ -659,9 +680,9 @@ OK
 </code></pre>
 
 <h3 id="with-any-other-client">With any other client</h3>
-<p>Unless your <a href="./5">Redis client</a> already supports Redis modules (unlikely) or ReJSON specifically (even
-unlikelier), you should be ok using its ability to send raw Redis commands. Depending on your client
-of choice the exact method for doing that may vary.</p>
+<p>Unless your <a href="http://redis.io/clients">Redis client</a> already supports Redis modules (unlikely) or
+ReJSON specifically (even unlikelier), you should be ok using its ability to send raw Redis
+commands. Depending on your client of choice the exact method for doing that may vary.</p>
 <h4 id="python-example">Python example</h4>
 <p>This code snippet shows how to use ReJSON from Python with
 <a href="https://github.com/andymccurdy/redis-py">redis-py</a>:</p>
@@ -678,7 +699,26 @@ reply = json.loads(r.execute_command('JSON.GET', 'doc'))
 </code></pre>
 
 <p>For a more comprehensive example, including a simple Python wrapper for ReJSON, see
-<a href="./examples/python">/examples/python</a>.</p>
+<a href="./examples/python">https://github.com/RedisLabsModules/rejson/tree/master/examples/python</a>.</p>
+<h3 id="rejson-clients">ReJSON clients</h3>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Language</th>
+<th>URL</th>
+<th>Author</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iorejson</td>
+<td>Node.js</td>
+<td><a href="https://www.npmjs.com/package/iorejson">npm</a></td>
+<td><a href="https://github.com/evanhuang8">Evan Huang @evanhuang8</a></td>
+</tr>
+</tbody>
+</table>
                 
                   
                 
@@ -744,7 +784,7 @@ reply = json.loads(r.execute_command('JSON.GET', 'doc'))
       
     </div>
     
-      <script src="./assets/javascripts/application-7aa26ad9ec.js"></script>
+      <script src="./assets/javascripts/application-c6f9af8d0c.js"></script>
       <script>app.initialize({url:{base:"."}})</script>
       
     
