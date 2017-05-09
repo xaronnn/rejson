@@ -352,20 +352,16 @@
 need to have <a href="https://github.com/andymccurdy/redis-py">redis-py</a> installed. The easiest way to get
 it is using pip and running <code>pip install redis</code>.</p>
 <p>The module's test can be run against an "embedded" disposable Redis instance, or against an instance
-you provide to it. The "embedded" mode requires a path to the <code>redis-server</code> executable. The path is
-stored in the <code>REDIS_SERVER_PATH</code> variable and can be set using CMake's <code>-D</code> switch as follows:</p>
-<pre><code class="bash">~/rejson$ cmake -D REDIS_SERVER_PATH=/path/to/redis-server --build build
+you provide to it. The "embedded" mode requires having the <code>redis-server</code> executable in your <code>PATH</code>.
+To run the tests, run the following in the project's directory:</p>
+<pre><code class="bash">$ # use a disposable Redis instance for testing the module
+$ make test
 </code></pre>
 
-<p>Now, you can run the tests:</p>
-<pre><code class="bash">~/rejson$ cmake --build build --target test
-...
-</code></pre>
-
-<p>Alternatively, to run only the module's unit test against a local instance listening at port 6379:</p>
-<pre><code class="bash">~/rejson$ cd build
-~/rejson/build$ REDIS_PORT=6379 ctest -R redis_module
-...
+<p>You can override the spawning of the embedded server by specifying a Redis port via the <code>REDIS_PORT</code>
+environment variable, e.g.:</p>
+<pre><code class="bash">$ # use an existing local Redis instance for testing the module
+$ REDIS_PORT=6379 make test
 </code></pre>
 
 <h2 id="making-the-docs">Making the docs</h2>

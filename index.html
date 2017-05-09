@@ -243,13 +243,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#windows" title="Windows" class="md-nav__link">
-    Windows
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -427,13 +420,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#windows" title="Windows" class="md-nav__link">
-    Windows
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -528,34 +514,11 @@ from: https://github.com/RedisLabsModules/ReJSON</p>
 <ul>
 <li>The ReJSON repository: <code>git clone https://github.com/RedisLabsModules/rejson.git</code></li>
 <li>The <code>build-essential</code> package: <code>apt-get install build-essential</code></li>
-<li>CMake (v3.0.0 or greater): <code>apt-get install cmake</code></li>
 </ul>
-<p>This module employs standard CMake tooling. Assuming that the repository's directory is at
-<code>~/rejson</code>, navigate to it and run the script <code>bootstrap.sh</code> from the project's root:</p>
-<pre><code class="bash">~/rejson$ ./bootstrap.sh
--- The C compiler identification is GNU 5.4.0
-...
-!! 'REDIS_SERVER_PATH' variable not defined (use cmake -D) - module unit test will not be run
--- Configuring done
--- Generating done
--- Build files have been written to: rejson/build
-</code></pre>
-
-<p>The bootstrapping will initialize the build directory <code>build</code>. Optionally, you may <a href="developer/#testing">configure the
-path to a Redis server executable</a> to enable unit testing.</p>
-<p>Now you can build the module's library itself:</p>
-<pre><code class="bash">~/rejson$ cmake --build build --target rejson
-Scanning dependencies of target rmobject
-...
-[100%] Linking C shared library rejson/lib/rejson.so
-[100%] Built target rejson
-</code></pre>
-
-<p>Congratulations! You can find the compiled module library at <code>lib/rejson.so</code>.</p>
+<p>To build the module, run <code>make</code> in the project's directory.</p>
+<p>Congratulations! You can find the compiled module library at <code>src/rejson.so</code>.</p>
 <h3 id="macosx">MacOSX</h3>
-<p>TBD</p>
-<h3 id="windows">Windows</h3>
-<p>Yeah, right :)</p>
+<p>WIP</p>
 <h2 id="loading-the-module-to-redis">Loading the module to Redis</h2>
 <p>Prerequirements:</p>
 <ul>
