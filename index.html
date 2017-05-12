@@ -661,24 +661,40 @@ r.execute_command('JSON.SET', 'doc', '.', json.dumps(data))
 reply = json.loads(r.execute_command('JSON.GET', 'doc'))
 </code></pre>
 
-<p>For a more comprehensive example, including a simple Python wrapper for ReJSON, see
-<a href="./examples/python">https://github.com/RedisLabsModules/rejson/tree/master/examples/python</a>.</p>
 <h3 id="rejson-clients">ReJSON clients</h3>
+<p>Some languages have client libraries that provide support for ReJSON's commands.
+The following is a list of these:</p>
 <table>
 <thead>
 <tr>
 <th>Project</th>
 <th>Language</th>
-<th>URL</th>
+<th>License</th>
 <th>Author</th>
+<th>URL</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>iorejson</td>
 <td>Node.js</td>
-<td><a href="https://www.npmjs.com/package/iorejson">npm</a></td>
 <td><a href="https://github.com/evanhuang8">Evan Huang @evanhuang8</a></td>
+<td><a href="https://github.com/evanhuang8/iorejson">git</a> <a href="https://www.npmjs.com/package/iorejson">npm</a></td>
+<td></td>
+</tr>
+<tr>
+<td>JReJSON</td>
+<td>Java</td>
+<td><a href="https://redislabs.com">Redis Labs</a></td>
+<td><a href="https://github.com/RedisLabs/JReJSON/">git</a></td>
+<td></td>
+</tr>
+<tr>
+<td>rejson-py</td>
+<td>Python</td>
+<td><a href="https://redislabs.com">Redis Labs</a></td>
+<td><a href="https://github.com/RedisLabs/redis-py/">git</a> <a href="https://pypi.python.org/pypi/rejson">pypi</a></td>
+<td></td>
 </tr>
 </tbody>
 </table>
