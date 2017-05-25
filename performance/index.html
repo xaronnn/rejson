@@ -11,7 +11,7 @@
       
       
       
-        <link rel="shortcut icon" href="../assets/images/favicon.png">
+        <link rel="shortcut icon" href="../images/favicon.png">
       
       <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.1">
     
@@ -46,7 +46,7 @@
   
   
   
-    <body data-md-color-primary="grey" data-md-color-accent="red">
+    <body data-md-color-primary="indigo" data-md-color-accent="">
   
     <svg class="md-svg">
       <defs>
@@ -600,7 +600,7 @@ different paths:</p>
 <h3 id="baseline">Baseline</h3>
 <p>To establish a baseline, we'll use the Redis <a href="https://redis.io/commands/ping"><code>PING</code></a> command.
 First, lets see what <code>redis-benchmark</code> reports:</p>
-<pre><code>~$ redis/src/redis-benchmark -n 1000000 ping
+<div class="codehilite"><pre><span></span>~$ redis/src/redis-benchmark -n 1000000 ping
 ====== ping ======
   1000000 requests completed in 7.11 seconds
   50 parallel clients
@@ -610,7 +610,8 @@ First, lets see what <code>redis-benchmark</code> reports:</p>
 99.99% &lt;= 1 milliseconds
 100.00% &lt;= 1 milliseconds
 140587.66 requests per second
-</code></pre>
+</pre></div>
+
 
 <p>ReJSONBenchmark's concurrency is configurable, so we'll test a few settings to find a good one. Here
 are the results, which indicate that 16 workers yield the best throughput:</p>
@@ -667,7 +668,7 @@ be done with it (a process that becomes more expensive the larger the object is)
 <h2 id="raw-results">Raw results</h2>
 <p>The following are the raw results from the benchmark in CSV format.</p>
 <h3 id="rejson-results">ReJSON results</h3>
-<pre><code>title,concurrency,rate,average latency,50.00%-tile,90.00%-tile,95.00%-tile,99.00%-tile,99.50%-tile,100.00%-tile
+<div class="codehilite"><pre><span></span>title,concurrency,rate,average latency,50.00%-tile,90.00%-tile,95.00%-tile,99.00%-tile,99.50%-tile,100.00%-tile
 [ping],1,22128.12,0.04,0.04,0.04,0.05,0.05,0.05,1.83
 [ping],2,54641.13,0.04,0.03,0.05,0.05,0.06,0.07,2.14
 [ping],4,76000.18,0.05,0.05,0.07,0.07,0.09,0.10,2.10
@@ -713,10 +714,11 @@ JSON.GET {key} message.code,16,89206.61,0.18,0.16,0.25,0.28,0.36,0.39,8.60
 [JSON.SET num . 0],16,84498.21,0.19,0.17,0.26,0.30,0.39,0.43,8.08
 [JSON.NUMINCRBY num . 1],16,78640.20,0.20,0.18,0.28,0.33,0.44,0.48,11.05
 [JSON.NUMMULTBY num . 2],16,77170.85,0.21,0.19,0.28,0.33,0.43,0.47,6.85
-</code></pre>
+</pre></div>
+
 
 <h3 id="lua-using-cjson">Lua using cjson</h3>
-<pre><code>json-set-root.lua empty string,16,86817.84,0.18,0.17,0.26,0.31,0.39,0.42,9.36
+<div class="codehilite"><pre><span></span>json-set-root.lua empty string,16,86817.84,0.18,0.17,0.26,0.31,0.39,0.42,9.36
 json-get-root.lua,16,90795.08,0.17,0.16,0.25,0.28,0.36,0.39,8.75
 json-set-root.lua pass-100.json,16,84190.26,0.19,0.17,0.27,0.30,0.38,0.41,12.00
 json-get-root.lua,16,87170.45,0.18,0.17,0.26,0.29,0.38,0.45,9.81
@@ -747,10 +749,11 @@ json-set-root.lua pass-jsonsl-yelp.json,16,29575.20,0.54,0.52,0.64,0.75,0.94,1.0
 json-get-root.lua,16,18424.29,0.87,0.84,1.25,1.40,1.82,1.95,7.35
 json-set-path.lua message code 1,16,2251.07,7.10,6.98,7.14,7.22,11.00,12.79,21.14
 json-get-path.lua message code,16,3380.72,4.73,4.44,5.03,6.82,10.28,11.06,14.93
-</code></pre>
+</pre></div>
+
 
 <h3 id="lua-using-cmsgpack">Lua using cmsgpack</h3>
-<pre><code>msgpack-set-root.lua empty string,16,82592.66,0.19,0.18,0.27,0.31,0.38,0.42,10.18
+<div class="codehilite"><pre><span></span>msgpack-set-root.lua empty string,16,82592.66,0.19,0.18,0.27,0.31,0.38,0.42,10.18
 msgpack-get-root.lua,16,89561.41,0.18,0.16,0.25,0.29,0.37,0.40,9.52
 msgpack-set-root.lua pass-100.json,16,44326.47,0.36,0.34,0.43,0.54,0.78,0.86,6.45
 msgpack-get-root.lua,16,41036.58,0.39,0.36,0.51,0.62,0.84,0.91,7.21
@@ -781,7 +784,7 @@ msgpack-set-root-lua pass-jsonsl-yelp.json,16,2291.53,6.97,6.87,7.01,7.12,10.54,
 msgpack-get-root.lua,16,2889.59,5.53,5.45,5.71,5.86,8.80,10.48,25.55
 msgpack-set-path.lua message code 1,16,2847.85,5.61,5.44,5.56,6.01,10.58,11.90,16.91
 msgpack-get-path.lua message code,16,5030.95,3.18,3.07,3.24,3.57,6.08,6.92,12.44
-</code></pre>
+</pre></div>
                 
                   
                 

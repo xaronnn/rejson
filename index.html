@@ -11,7 +11,7 @@
       
       
       
-        <link rel="shortcut icon" href="./assets/images/favicon.png">
+        <link rel="shortcut icon" href="./images/favicon.png">
       
       <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.1">
     
@@ -46,7 +46,7 @@
   
   
   
-    <body data-md-color-primary="grey" data-md-color-accent="red">
+    <body data-md-color-primary="indigo" data-md-color-accent="">
   
     <svg class="md-svg">
       <defs>
@@ -530,49 +530,53 @@ at: https://github.com/RedisLabsModules/ReJSON</p>
 <li><a href="http://redis.io/download">Redis v4.0 or above</a></li>
 </ul>
 <p>We recommend you have Redis load the module during startup by adding the following to your <code>redis.conf</code> file:</p>
-<pre><code>loadmodule /path/to/module/rejson.so
-</code></pre>
+<div class="codehilite"><pre><span></span>loadmodule /path/to/module/rejson.so
+</pre></div>
+
 
 <p>In the line above replace <code>/path/to/module/rejson.so</code> with the actual path to the module's library. Alternatively, you can have Redis load the module using the following command line argument syntax:</p>
-<pre><code class="bash">~/$ redis-server --loadmodule /path/to/module/rejson.so
-</code></pre>
+<div class="codehilite"><pre><span></span>~/$ redis-server --loadmodule /path/to/module/rejson.so
+</pre></div>
+
 
 <p>Lastly, you can also use the <a href="http://redis.io/commands/module-load"><code>MODULE LOAD</code></a> command. Note, however, that <code>MODULE LOAD</code> is a <strong>dangerous command</strong> and may be blocked/deprecated in the future due to security considerations.</p>
 <p>Once the module has been loaded successfully, the Redis log should have lines similar to:</p>
-<pre><code>...
+<div class="codehilite"><pre><span></span>...
 1877:M 23 Dec 02:02:59.725 # &lt;ReJSON&gt; JSON data type for Redis - v1.0.0 [encver 0]
-1877:M 23 Dec 02:02:59.725 * Module 'ReJSON' loaded from &lt;redacted&gt;/src/rejson.so
+1877:M 23 Dec 02:02:59.725 * Module &#39;ReJSON&#39; loaded from &lt;redacted&gt;/src/rejson.so
 ...
-</code></pre>
+</pre></div>
+
 
 <h2 id="using-rejson">Using ReJSON</h2>
 <p>Before using ReJSON, you should familiarize yourself with its commands and syntax as detailed in the <a href="commands/">commands reference</a> document. However, to quickly get started just review this section and get:</p>
 <ol>
 <li>A Redis server running the module (see <a href="#building-the-module-library">building</a> and <a href="#loading-the-module-to-Redis">loading</a> for instructions)</li>
-<li>Any <a href="http://redis.io/clients">Redis</a> or <a href="#rejson-clients">ReJSON client</a></li>
+<li>Any <a href="http://redis.io/clients">Redis</a> or <a href="#client-libraries">ReJSON client</a></li>
 </ol>
 <h3 id="with-redis-cli">With <code>redis-cli</code></h3>
 <p>This example will use <a href="http://redis.io/topics/rediscli"><code>redis-cli</code></a> as the Redis client. The first ReJSON command to try out is <a href="./commands#jsonset"><code>JSON.SET</code></a>, which sets a Redis key with a JSON value. All JSON values can be used, for example a string:</p>
-<pre><code>127.0.0.1:6379&gt; JSON.SET foo . '&quot;bar&quot;'
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; JSON.SET foo . &#39;&quot;bar&quot;&#39;
 OK
 127.0.0.1:6379&gt; JSON.GET foo
 &quot;\&quot;bar\&quot;&quot;
 127.0.0.1:6379&gt; JSON.TYPE foo .
 string
-</code></pre>
+</pre></div>
+
 
 <p><a href="commands/#jsonget"><code>JSON.GET</code></a> and <a href="commands/#jsontype"><code>JSON.TYPE</code></a> do literally that regardless of the value's type, but you should really check out <code>JSON.GET</code> prettifying powers. Note how the commands are given the period character, i.e. <code>.</code>. This is the <a href="path/">path</a> to the value in the ReJSON data type (in this case it just means the root). A couple more string operations:</p>
-<pre><code>127.0.0.1:6379&gt; JSON.STRLEN foo .
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; JSON.STRLEN foo .
 3
-127.0.0.1:6379&gt; JSON.STRAPPEND foo . '&quot;baz&quot;'
+127.0.0.1:6379&gt; JSON.STRAPPEND foo . &#39;&quot;baz&quot;&#39;
 6
 127.0.0.1:6379&gt; JSON.GET foo
 &quot;\&quot;barbaz\&quot;&quot;
+</pre></div>
 
-</code></pre>
 
 <p><a href="./commands#jsonstrlen"><code>JSON.STRLEN</code></a> tells you the length of the string, and you can append another string to it with <a href="./commands#jsonstrappend"><code>JSON.STRAPPEND</code></a>. Numbers can be <a href="./commands#jsonnumincrby">incremented</a> and <a href="./commands#jsonnummultby">multiplied</a>:</p>
-<pre><code>127.0.0.1:6379&gt; JSON.SET num . 0
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; JSON.SET num . 0
 OK
 127.0.0.1:6379&gt; JSON.NUMINCRBY num . 1
 &quot;1&quot;
@@ -582,10 +586,11 @@ OK
 &quot;1.75&quot;
 127.0.0.1:6379&gt; JSON.NUMMULTBY num . 24
 &quot;42&quot;
-</code></pre>
+</pre></div>
+
 
 <p>Of course, a more interesting example would involve an array or maybe an object:</p>
-<pre><code>127.0.0.1:6379&gt; JSON.SET amoreinterestingexample . '[ true, { &quot;answer&quot;: 42 }, null ]'
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; JSON.SET amoreinterestingexample . &#39;[ true, { &quot;answer&quot;: 42 }, null ]&#39;
 OK
 127.0.0.1:6379&gt; JSON.GET amoreinterestingexample
 &quot;[true,{\&quot;answer\&quot;:42},null]&quot;
@@ -595,10 +600,11 @@ OK
 1
 127.0.0.1:6379&gt; JSON.GET amoreinterestingexample
 &quot;[true,{\&quot;answer\&quot;:42}]&quot;
-</code></pre>
+</pre></div>
+
 
 <p>The handy <a href="./commands#jsondel"><code>JSON.DEL</code></a> command deletes anything you tell it to. Arrays can be manipulated with a dedicated subset of ReJSON commands:</p>
-<pre><code>127.0.0.1:6379&gt; JSON.SET arr . []
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; JSON.SET arr . []
 OK
 127.0.0.1:6379&gt; JSON.ARRAPPEND arr . 0
 (integer) 1
@@ -616,10 +622,11 @@ OK
 &quot;-1&quot;
 127.0.0.1:6379&gt; JSON.ARRPOP arr
 (nil)
-</code></pre>
+</pre></div>
+
 
 <p>And objects have their own commands too:</p>
-<pre><code>127.0.0.1:6379&gt; JSON.SET obj . '{&quot;name&quot;:&quot;Leonard Cohen&quot;,&quot;lastSeen&quot;:1478476800,&quot;loggedOut&quot;: true}'
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; JSON.SET obj . &#39;{&quot;name&quot;:&quot;Leonard Cohen&quot;,&quot;lastSeen&quot;:1478476800,&quot;loggedOut&quot;: true}&#39;
 OK
 127.0.0.1:6379&gt; JSON.OBJLEN obj .
 (integer) 3
@@ -627,23 +634,25 @@ OK
 1) &quot;name&quot;
 2) &quot;lastSeen&quot;
 3) &quot;loggedOut&quot;
-</code></pre>
+</pre></div>
+
 
 <h3 id="with-any-other-client">With any other client</h3>
 <p>Unless your <a href="http://redis.io/clients">Redis client</a> already supports Redis modules (unlikely) or ReJSON specifically (even more unlikely), you should be okay using its ability to send raw Redis commands. Depending on your client of choice, the exact method for doing that may vary.</p>
 <h4 id="python-example">Python example</h4>
 <p>This code snippet shows how to use ReJSON with raw Redis commands from Python with <a href="https://github.com/andymccurdy/redis-py">redis-py</a>:</p>
-<pre><code class="Python">import redis
-import json
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">redis</span>
+<span class="kn">import</span> <span class="nn">json</span>
 
-data = {
-    'foo': 'bar'
-}
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span>
+<span class="p">}</span>
 
-r = redis.StrictRedis()
-r.execute_command('JSON.SET', 'doc', '.', json.dumps(data))
-reply = json.loads(r.execute_command('JSON.GET', 'doc'))
-</code></pre>
+<span class="n">r</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">StrictRedis</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">execute_command</span><span class="p">(</span><span class="s1">&#39;JSON.SET&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">execute_command</span><span class="p">(</span><span class="s1">&#39;JSON.GET&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">))</span>
+</pre></div>
+
 
 <h3 id="client-libraries">Client libraries</h3>
 <p>Some languages have client libraries that provide support for ReJSON's commands:</p>
@@ -661,23 +670,23 @@ reply = json.loads(r.execute_command('JSON.GET', 'doc'))
 <tr>
 <td>iorejson</td>
 <td>Node.js</td>
+<td>MIT</td>
 <td><a href="https://github.com/evanhuang8">Evan Huang @evanhuang8</a></td>
 <td><a href="https://github.com/evanhuang8/iorejson">git</a> <a href="https://www.npmjs.com/package/iorejson">npm</a></td>
-<td></td>
 </tr>
 <tr>
 <td>JReJSON</td>
 <td>Java</td>
+<td>BSD-2-Clause</td>
 <td><a href="https://redislabs.com">Redis Labs</a></td>
 <td><a href="https://github.com/RedisLabs/JReJSON/">git</a></td>
-<td></td>
 </tr>
 <tr>
 <td>rejson-py</td>
 <td>Python</td>
+<td>BSD-2-Clause</td>
 <td><a href="https://redislabs.com">Redis Labs</a></td>
 <td><a href="https://github.com/RedisLabs/redis-py/">git</a> <a href="https://pypi.python.org/pypi/rejson">pypi</a></td>
-<td></td>
 </tr>
 </tbody>
 </table>

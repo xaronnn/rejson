@@ -11,7 +11,7 @@
       
       
       
-        <link rel="shortcut icon" href="../assets/images/favicon.png">
+        <link rel="shortcut icon" href="../images/favicon.png">
       
       <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.1">
     
@@ -46,7 +46,7 @@
   
   
   
-    <body data-md-color-primary="grey" data-md-color-accent="red">
+    <body data-md-color-primary="indigo" data-md-color-accent="">
   
     <svg class="md-svg">
       <defs>
@@ -354,15 +354,17 @@ it is using pip and running <code>pip install redis</code>.</p>
 <p>The module's test can be run against an "embedded" disposable Redis instance, or against an instance
 you provide to it. The "embedded" mode requires having the <code>redis-server</code> executable in your <code>PATH</code>.
 To run the tests, run the following in the project's directory:</p>
-<pre><code class="bash">$ # use a disposable Redis instance for testing the module
-$ make test
-</code></pre>
+<div class="codehilite"><pre><span></span>$ <span class="c1"># use a disposable Redis instance for testing the module</span>
+$ make <span class="nb">test</span>
+</pre></div>
+
 
 <p>You can override the spawning of the embedded server by specifying a Redis port via the <code>REDIS_PORT</code>
 environment variable, e.g.:</p>
-<pre><code class="bash">$ # use an existing local Redis instance for testing the module
-$ REDIS_PORT=6379 make test
-</code></pre>
+<div class="codehilite"><pre><span></span>$ <span class="c1"># use an existing local Redis instance for testing the module</span>
+$ <span class="nv">REDIS_PORT</span><span class="o">=</span><span class="m">6379</span> make <span class="nb">test</span>
+</pre></div>
+
 
 <h2 id="making-the-docs">Making the docs</h2>
 <ol>

@@ -11,7 +11,7 @@
       
       
       
-        <link rel="shortcut icon" href="../assets/images/favicon.png">
+        <link rel="shortcut icon" href="../images/favicon.png">
       
       <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.1">
     
@@ -46,7 +46,7 @@
   
   
   
-    <body data-md-color-primary="grey" data-md-color-accent="red">
+    <body data-md-color-primary="indigo" data-md-color-accent="">
   
     <svg class="md-svg">
       <defs>
@@ -1677,8 +1677,9 @@ header shows the syntax for the command, where:</p>
 <strong>Time complexity:</strong>  O(N), where N is the size of the deleted value.</p>
 </blockquote>
 <h3 id="syntax">Syntax</h3>
-<pre><code>JSON.DEL &lt;key&gt; &lt;path&gt;
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.DEL &lt;key&gt; &lt;path&gt;
+</pre></div>
+
 
 <h3 id="description">Description</h3>
 <p>Delete a value.</p>
@@ -1691,12 +1692,13 @@ header shows the syntax for the command, where:</p>
 <strong>Time complexity:</strong>  O(N), where N is the size of the value.</p>
 </blockquote>
 <h3 id="syntax_1">Syntax</h3>
-<pre><code>JSON.GET &lt;key&gt;
+<div class="codehilite"><pre><span></span>JSON.GET &lt;key&gt;
          [INDENT indentation-string]
          [NEWLINE line-break-string]
          [SPACE space-string]
          [path ...]
-</code></pre>
+</pre></div>
+
 
 <h3 id="description_1">Description</h3>
 <p>Return the value at <code>path</code> in JSON serialized form.</p>
@@ -1706,9 +1708,10 @@ header shows the syntax for the command, where:</p>
 </em>   <code>NEWLINE</code> sets the string that's printed at the end of each line
 *   <code>SPACE</code> sets the string that's put between a key and a value</p>
 <p>Pretty-formatted JSON is producible with <code>redis-cli</code> by following this example:</p>
-<pre><code>~/$ redis-cli --raw
+<div class="codehilite"><pre><span></span>~/$ redis-cli --raw
 127.0.0.1:6379&gt; JSON.GET myjsonkey INDENT &quot;\t&quot; NEWLINE &quot;\n&quot; SPACE &quot; &quot; path.to.value[1]
-</code></pre>
+</pre></div>
+
 
 <h3 id="return-value_1">Return value</h3>
 <p><a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk String</a>, specifically the JSON serialization.</p>
@@ -1719,8 +1722,9 @@ header shows the syntax for the command, where:</p>
 <strong>Time complexity:</strong>  O(M*N), where M is the number of keys and N is the size of the value.</p>
 </blockquote>
 <h3 id="syntax_2">Syntax</h3>
-<pre><code>JSON.MGET &lt;key&gt; [key ...] &lt;path&gt;
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.MGET &lt;key&gt; [key ...] &lt;path&gt;
+</pre></div>
+
 
 <h3 id="description_2">Description</h3>
 <p>Returns the values at <code>path</code> from multiple <code>key</code>s. Non-existing keys and non-existing paths are reported as null.</p>
@@ -1734,9 +1738,10 @@ path.</p>
 the size of the new value.</p>
 </blockquote>
 <h3 id="syntax_3">Syntax</h3>
-<pre><code>JSON.SET &lt;key&gt; &lt;path&gt; &lt;json&gt;
+<div class="codehilite"><pre><span></span>JSON.SET &lt;key&gt; &lt;path&gt; &lt;json&gt;
          [NX | XX]
-</code></pre>
+</pre></div>
+
 
 <h3 id="description_3">Description</h3>
 <p>Sets the JSON value at <code>path</code> in <code>key</code></p>
@@ -1755,8 +1760,9 @@ conditions were not met.</p>
 <strong>Time complexity:</strong>  O(1).</p>
 </blockquote>
 <h3 id="syntax_4">Syntax</h3>
-<pre><code>JSON.TYPE &lt;key&gt; [path]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.TYPE &lt;key&gt; [path]
+</pre></div>
+
 
 <h3 id="description_4">Description</h3>
 <p>Report the type of JSON value at <code>path</code>.</p>
@@ -1769,8 +1775,9 @@ conditions were not met.</p>
 <strong>Time complexity:</strong>  O(1).</p>
 </blockquote>
 <h3 id="syntax_5">Syntax</h3>
-<pre><code>JSON.NUMINCRBY &lt;key&gt; &lt;path&gt; &lt;number&gt;
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.NUMINCRBY &lt;key&gt; &lt;path&gt; &lt;number&gt;
+</pre></div>
+
 
 <h3 id="description_5">Description</h3>
 <p>Increments the number value stored at <code>path</code> by <code>number</code>.</p>
@@ -1782,8 +1789,9 @@ conditions were not met.</p>
 <strong>Time complexity:</strong>  O(1).</p>
 </blockquote>
 <h3 id="syntax_6">Syntax</h3>
-<pre><code>JSON.NUMMULTBY &lt;key&gt; &lt;path&gt; &lt;number&gt;
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.NUMMULTBY &lt;key&gt; &lt;path&gt; &lt;number&gt;
+</pre></div>
+
 
 <h3 id="description_6">Description</h3>
 <p>Multiplies the number value stored at <code>path</code> by <code>number</code>.</p>
@@ -1795,8 +1803,9 @@ conditions were not met.</p>
 <strong>Time complexity:</strong>  O(N), where N is the new string's length.</p>
 </blockquote>
 <h3 id="syntax_7">Syntax</h3>
-<pre><code>JSON.STRAPPEND &lt;key&gt; [path] &lt;json-string&gt;
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.STRAPPEND &lt;key&gt; [path] &lt;json-string&gt;
+</pre></div>
+
 
 <h3 id="description_7">Description</h3>
 <p>Append the <code>json-string</code> value(s) the string at <code>path</code>.</p>
@@ -1809,8 +1818,9 @@ conditions were not met.</p>
 <strong>Time complexity:</strong>  O(1).</p>
 </blockquote>
 <h3 id="syntax_8">Syntax</h3>
-<pre><code>JSON.STRLEN &lt;key&gt; [path]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.STRLEN &lt;key&gt; [path]
+</pre></div>
+
 
 <h3 id="description_8">Description</h3>
 <p>Report the length of the JSON String at <code>path</code> in <code>key</code>.</p>
@@ -1823,8 +1833,9 @@ conditions were not met.</p>
 <strong>Time complexity:</strong>  O(1).</p>
 </blockquote>
 <h3 id="syntax_9">Syntax</h3>
-<pre><code>JSON.ARRAPPEND &lt;key&gt; &lt;path&gt; &lt;json&gt; [json ...]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.ARRAPPEND &lt;key&gt; &lt;path&gt; &lt;json&gt; [json ...]
+</pre></div>
+
 
 <h3 id="description_9">Description</h3>
 <p>Append the <code>json</code> value(s) into the array at <code>path</code> after the last element in it.</p>
@@ -1836,8 +1847,9 @@ conditions were not met.</p>
 <strong>Time complexity:</strong>  O(N), where N is the array's size.</p>
 </blockquote>
 <h3 id="syntax_10">Syntax</h3>
-<pre><code>JSON.ARRINDEX &lt;key&gt; &lt;path&gt; &lt;json-scalar&gt; [start [stop]]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.ARRINDEX &lt;key&gt; &lt;path&gt; &lt;json-scalar&gt; [start [stop]]
+</pre></div>
+
 
 <p>Search for the first occurrence of a scalar JSON value in an array.</p>
 <p>The optional inclusive <code>start</code> (default 0) and exclusive <code>stop</code> (default 0, meaning that the last element is included) specify a slice of the array to search.</p>
@@ -1850,8 +1862,9 @@ conditions were not met.</p>
 <strong>Time complexity:</strong>  O(N), where N is the array's size.</p>
 </blockquote>
 <h3 id="syntax_11">Syntax</h3>
-<pre><code>JSON.ARRINSERT &lt;key&gt; &lt;path&gt; &lt;index&gt; &lt;json&gt; [json ...]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.ARRINSERT &lt;key&gt; &lt;path&gt; &lt;index&gt; &lt;json&gt; [json ...]
+</pre></div>
+
 
 <h3 id="description_10">Description</h3>
 <p>Insert the <code>json</code> value(s) into the array at <code>path</code> before the <code>index</code> (shifts to the right).</p>
@@ -1864,8 +1877,9 @@ conditions were not met.</p>
 <strong>Time complexity:</strong>  O(1).</p>
 </blockquote>
 <h3 id="syntax_12">Syntax</h3>
-<pre><code>JSON.ARRLEN &lt;key&gt; [path]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.ARRLEN &lt;key&gt; [path]
+</pre></div>
+
 
 <p>Report the length of the JSON Array at <code>path</code> in <code>key</code>.</p>
 <p><code>path</code> defaults to root if not provided. If the <code>key</code> or <code>path</code> do not exist, null is returned.</p>
@@ -1878,8 +1892,9 @@ conditions were not met.</p>
 O(1) otherwise.</p>
 </blockquote>
 <h3 id="syntax_13">Syntax</h3>
-<pre><code>JSON.ARRPOP &lt;key&gt; [path [index]]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.ARRPOP &lt;key&gt; [path [index]]
+</pre></div>
+
 
 <h3 id="description_11">Description</h3>
 <p>Remove and return element from the index in the array.</p>
@@ -1892,8 +1907,9 @@ O(1) otherwise.</p>
 <strong>Time complexity:</strong>  O(N), where N is the array's size.</p>
 </blockquote>
 <h3 id="syntax_14">Syntax</h3>
-<pre><code>JSON.ARRTRIM &lt;key&gt; &lt;path&gt; &lt;start&gt; &lt;stop&gt;
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.ARRTRIM &lt;key&gt; &lt;path&gt; &lt;start&gt; &lt;stop&gt;
+</pre></div>
+
 
 <h3 id="description_12">Description</h3>
 <p>Trim an array so that it contains only the specified inclusive range of elements.</p>
@@ -1906,8 +1922,9 @@ O(1) otherwise.</p>
 <strong>Time complexity:</strong>  O(N), where N is the number of keys in the object.</p>
 </blockquote>
 <h3 id="syntax_15">Syntax</h3>
-<pre><code>JSON.OBJKEYS &lt;key&gt; [path]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.OBJKEYS &lt;key&gt; [path]
+</pre></div>
+
 
 <h3 id="description_13">Description</h3>
 <p>Return the keys in the object that's referenced by <code>path</code>.</p>
@@ -1920,8 +1937,9 @@ O(1) otherwise.</p>
 <strong>Time complexity:</strong>  O(1).</p>
 </blockquote>
 <h3 id="syntax_16">Syntax</h3>
-<pre><code>JSON.OBJLEN &lt;key&gt; [path]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.OBJLEN &lt;key&gt; [path]
+</pre></div>
+
 
 <h3 id="description_14">Description</h3>
 <p>Report the number of keys in the JSON Object at <code>path</code> in <code>key</code>.</p>
@@ -1934,8 +1952,9 @@ O(1) otherwise.</p>
 <strong>Time complexity:</strong>  O(N), where N is the size of the JSON value.</p>
 </blockquote>
 <h3 id="syntax_17">Syntax</h3>
-<pre><code>JSON.DEBUG &lt;subcommand &amp; arguments&gt;
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.DEBUG &lt;subcommand &amp; arguments&gt;
+</pre></div>
+
 
 <h3 id="description_15">Description</h3>
 <p>Report information.</p>
@@ -1959,8 +1978,9 @@ O(1) otherwise.</p>
 <strong>Time complexity:</strong>  O(N), where N is the size of the JSON value.</p>
 </blockquote>
 <h3 id="syntax_18">Syntax</h3>
-<pre><code>JSON.RESP &lt;key&gt; [path]
-</code></pre>
+<div class="codehilite"><pre><span></span>JSON.RESP &lt;key&gt; [path]
+</pre></div>
+
 
 <h3 id="description_16">Description</h3>
 <p>Return the JSON in <code>key</code> in <a href="http://redis.io/topics/protocol">Redis Serialization Protocol (RESP)</a>.</p>
