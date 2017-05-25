@@ -1,32 +1,32 @@
 
 <!DOCTYPE html>
-<html class="no-js">
+<html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
-        <link rel="canonical" href="https://redislabsmodules.github.io/ReJSON/commands/">
+        <link rel="canonical" href="http://rejson.io/commands/">
       
       
       
         <link rel="shortcut icon" href="../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.2, mkdocs-material-1.5.0">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.1">
     
     
       
-        <title>Commands - ReJSON Documentation</title>
+        <title>Commands - ReJSON - a JSON data type for Redis</title>
       
     
     
       <script src="../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application-d848f886dc.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application-4d0d3f2fbf.css">
       
-        <link rel="stylesheet" href="../assets/stylesheets/application-66fa0d9bba.palette.css">
+        <link rel="stylesheet" href="../assets/stylesheets/application-f78e5cb881.palette.css">
       
     
     
@@ -65,7 +65,7 @@
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
         
-          <a href=".." title="ReJSON Documentation" class="md-logo md-header-nav__button">
+          <a href="http://rejson.io" title="ReJSON - a JSON data type for Redis" class="md-logo md-header-nav__button">
             <img src="../images/logo.svg" width="24" height="24">
           </a>
         
@@ -88,7 +88,7 @@
           <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
           
 <div class="md-search" data-md-component="search">
-  <div class="md-search__overlay"></div>
+  <label class="md-search__overlay" for="search"></label>
   <div class="md-search__inner">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" required placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
@@ -155,7 +155,7 @@
         <img src="../images/logo.svg">
       </i>
     
-    ReJSON Documentation
+    ReJSON - a JSON data type for Redis
   </label>
   
     <div class="md-nav__source">
@@ -1650,17 +1650,14 @@
               
                 
                 
-                <h1 id="rejson-commands">ReJSON commands</h1>
+                <h1 id="rejson-commands">ReJSON Commands</h1>
 <h2 id="overview">Overview</h2>
 <h3 id="supported-json">Supported JSON</h3>
-<p>ReJSON aims at providing full support for
-<a href="http://json.org/">ECMA-404 The JSON Data Interchange Standard</a>.</p>
-<p>In the below, the term <em>JSON Value</em> refers to any of the valid values. A <em>Container</em> is either a
-<em>JSON Array</em> or a <em>JSON Object</em>. A <em>JSON Scalar</em> is a <em>JSON Number</em>, a <em>JSON String</em> or a literal
-(<em>JSON False</em>, <em>JSON True</em> or <em>JSON Null</em>).</p>
+<p>ReJSON aims to provide full support for <a href="http://json.org/">ECMA-404 The JSON Data Interchange Standard</a>.</p>
+<p>Below, the term <em>JSON Value</em> refers to any of the valid values. A <em>Container</em> is either a <em>JSON Array</em> or a <em>JSON Object</em>. A <em>JSON Scalar</em> is a <em>JSON Number</em>, a <em>JSON String</em> or a literal (<em>JSON False</em>, <em>JSON True</em> or <em>JSON Null</em>).</p>
 <h3 id="rejson-api">ReJSON API</h3>
-<p>Each of the module's commands is described in detail in the sections below. Each command section's
-header is the syntax for the command, where:</p>
+<p>Each of the module's commands is described below. Each section
+header shows the syntax for the command, where:</p>
 <ul>
 <li>Command and subcommand names are in uppercase, for example <code>JSON.SET</code> or <code>INDENT</code></li>
 <li>Mandatory arguments are enclosed in angle brackets, e.g. <code>&lt;path&gt;</code></li>
@@ -1668,13 +1665,11 @@ header is the syntax for the command, where:</p>
 <li>Additional optional arguments are indicated by three period characters, i.e. <code>...</code></li>
 <li>The pipe character, <code>|</code>, means an exclusive or</li>
 </ul>
-<p>Commands usually require a key's name as their first argument and the <a href="../path/">path</a> is generally
-assumed to be the root if not specified.</p>
-<p>The time complexity of the command does not include that of the
-<a href="../path/#time-complexity-of-path-evaluation">path</a>. The size - usually denoted <em>N</em> - of a value is:</p>
+<p>Commands usually require a key's name as their first argument. The <a href="../path/">path</a> is generally assumed to be the root if not specified.</p>
+<p>The time complexity of the command does not include that of the <a href="../path/#time-complexity-of-path-evaluation">path</a>. The size - usually denoted <em>N</em> - of a value is:</p>
 <ul>
 <li>1 for scalar values</li>
-<li>The sum of sizes items in a container</li>
+<li>The sum of sizes of items in a container</li>
 </ul>
 <h2 id="jsondel">JSON.DEL</h2>
 <blockquote>
@@ -1687,8 +1682,7 @@ assumed to be the root if not specified.</p>
 
 <h3 id="description">Description</h3>
 <p>Delete a value.</p>
-<p><code>path</code> defaults to root if not provided. Non-existing keys as well as non-existing paths are
-ignored. Deleting an object's root is equivalent to deleting the key from Redis.</p>
+<p><code>path</code> defaults to root if not provided. Non-existing keys and paths are ignored. Deleting an object's root is equivalent to deleting the key from Redis.</p>
 <h3 id="return-value">Return value</h3>
 <p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the number of paths deleted (0 or 1).</p>
 <h2 id="jsonget">JSON.GET</h2>
@@ -1697,26 +1691,28 @@ ignored. Deleting an object's root is equivalent to deleting the key from Redis.
 <strong>Time complexity:</strong>  O(N), where N is the size of the value.</p>
 </blockquote>
 <h3 id="syntax_1">Syntax</h3>
-<pre><code>JSON.GET &lt;key&gt; [INDENT indentation-string] [NEWLINE line-break-string] [SPACE space-string] [path ...]
+<pre><code>JSON.GET &lt;key&gt;
+         [INDENT indentation-string]
+         [NEWLINE line-break-string]
+         [SPACE space-string]
+         [path ...]
 </code></pre>
 
 <h3 id="description_1">Description</h3>
 <p>Return the value at <code>path</code> in JSON serialized form.</p>
 <p>This command accepts multiple <code>path</code>s, and defaults to the value's root when none are given.</p>
-<p>The following subcommands change the reply's and are all set to the empty string by default:
+<p>The following subcommands change the reply's format and are all set to the empty string by default:
 <em>   <code>INDENT</code> sets the indentation string for nested levels
 </em>   <code>NEWLINE</code> sets the string that's printed at the end of each line
 *   <code>SPACE</code> sets the string that's put between a key and a value</p>
-<p>Pretty-formatted JSON is producable with <code>redis-cli</code> by following this example:</p>
+<p>Pretty-formatted JSON is producible with <code>redis-cli</code> by following this example:</p>
 <pre><code>~/$ redis-cli --raw
 127.0.0.1:6379&gt; JSON.GET myjsonkey INDENT &quot;\t&quot; NEWLINE &quot;\n&quot; SPACE &quot; &quot; path.to.value[1]
 </code></pre>
 
 <h3 id="return-value_1">Return value</h3>
 <p><a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk String</a>, specifically the JSON serialization.</p>
-<p>The reply's structure depends on the on the number of paths. A single path results in the value
-being itself is returned, whereas multiple paths are returned as a JSON object in which each path
-is a key.</p>
+<p>The reply's structure depends on the number of paths. A single path results in the value itself being returned, whereas multiple paths are returned as a JSON object in which each path is a key.</p>
 <h2 id="jsonmget">JSON.MGET</h2>
 <blockquote>
 <p><strong>Available since 1.0.0.</strong><br />
@@ -1727,8 +1723,7 @@ is a key.</p>
 </code></pre>
 
 <h3 id="description_2">Description</h3>
-<p>Returns the values at <code>path</code> from multiple <code>key</code>s. Non-existing keys and non-existing paths are
-reported as null.</p>
+<p>Returns the values at <code>path</code> from multiple <code>key</code>s. Non-existing keys and non-existing paths are reported as null.</p>
 <h3 id="return-value_2">Return value</h3>
 <p><a href="http://redis.io/topics/protocol#resp-arrays">Array</a> of <a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk Strings</a>, specifically the JSON serialization of the value at each key's
 path.</p>
@@ -1739,18 +1734,16 @@ path.</p>
 the size of the new value.</p>
 </blockquote>
 <h3 id="syntax_3">Syntax</h3>
-<pre><code>JSON.SET &lt;key&gt; &lt;path&gt; &lt;json&gt; [NX|XX]
+<pre><code>JSON.SET &lt;key&gt; &lt;path&gt; &lt;json&gt;
+         [NX | XX]
 </code></pre>
 
 <h3 id="description_3">Description</h3>
 <p>Sets the JSON value at <code>path</code> in <code>key</code></p>
-<p>For new Redis keys the <code>path</code> must be the root. For existing keys, when the entire <code>path</code> exists,
-the value that it contains is replaced with the <code>json</code> value.</p>
-<p>A key (with its respective value) is added to a JSON Object (in a Redis ReJSON data type key) if
-and only if it is the last child in the <code>path</code>. The optional subcommands modify this behavior for
-both new Redis ReJSON data type keys as well as JSON Object keys in them:</p>
+<p>For new Redis keys the <code>path</code> must be the root. For existing keys, when the entire <code>path</code> exists, the value that it contains is replaced with the <code>json</code> value.</p>
+<p>A key (with its respective value) is added to a JSON Object (in a Redis ReJSON data type key) if and only if it is the last child in the <code>path</code>. The optional subcommands modify this behavior for both new Redis ReJSON data type keys as well as the JSON Object keys in them:</p>
 <ul>
-<li><code>NX</code> - only set the key if it does not already exists</li>
+<li><code>NX</code> - only set the key if it does not already exist</li>
 <li><code>XX</code> - only set the key if it already exists</li>
 </ul>
 <h3 id="return-value_3">Return value</h3>
@@ -1846,13 +1839,11 @@ conditions were not met.</p>
 <pre><code>JSON.ARRINDEX &lt;key&gt; &lt;path&gt; &lt;json-scalar&gt; [start [stop]]
 </code></pre>
 
-<p>Search for the first occurance of a scalar JSON value in an array.</p>
-<p>The optional inclusive <code>start</code> (default 0) and exclusive <code>stop</code> (default 0, meaning that the last
-element is included) specify a slice of the array to search.</p>
-<p>Note: out of range errors are treated by rounding the index to the array's start and end. An
-inverse index range (e.g, from 1 to 0) will return unfound.</p>
+<p>Search for the first occurrence of a scalar JSON value in an array.</p>
+<p>The optional inclusive <code>start</code> (default 0) and exclusive <code>stop</code> (default 0, meaning that the last element is included) specify a slice of the array to search.</p>
+<p>Note: out of range errors are treated by rounding the index to the array's start and end. An inverse index range (e.g. from 1 to 0) will return unfound.</p>
 <h3 id="return-value_10">Return value</h3>
-<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the position of the scalar value in the array or -1 if unfound.</p>
+<p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the position of the scalar value in the array, or -1 if unfound.</p>
 <h2 id="jsonarrinsert">JSON.ARRINSERT</h2>
 <blockquote>
 <p><strong>Available since 1.0.0.</strong><br />
@@ -1864,8 +1855,7 @@ inverse index range (e.g, from 1 to 0) will return unfound.</p>
 
 <h3 id="description_10">Description</h3>
 <p>Insert the <code>json</code> value(s) into the array at <code>path</code> before the <code>index</code> (shifts to the right).</p>
-<p>The index must be in the array's range. Inserting at <code>index</code> 0 prepends to the array. Negative
-index values are interpreted as starting from the end.</p>
+<p>The index must be in the array's range. Inserting at <code>index</code> 0 prepends to the array. Negative index values are interpreted as starting from the end.</p>
 <h3 id="return-value_11">Return value</h3>
 <p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the array's new size.</p>
 <h2 id="jsonarrlen">JSON.ARRLEN</h2>
@@ -1893,9 +1883,7 @@ O(1) otherwise.</p>
 
 <h3 id="description_11">Description</h3>
 <p>Remove and return element from the index in the array.</p>
-<p><code>path</code> defaults to root if not provided. <code>index</code> is the position in the array to start popping
-from (defaults to -1, meaning the last element). Out of range indices are rounded to their
-respective array ends. Popping an empty array yields null.</p>
+<p><code>path</code> defaults to root if not provided. <code>index</code> is the position in the array to start popping from (defaults to -1, meaning the last element). Out of range indices are rounded to their respective array ends. Popping an empty array yields null.</p>
 <h3 id="return-value_13">Return value</h3>
 <p><a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk String</a>, specifically the popped JSON value.</p>
 <h2 id="jsonarrtrim">JSON.ARRTRIM</h2>
@@ -1909,10 +1897,7 @@ respective array ends. Popping an empty array yields null.</p>
 
 <h3 id="description_12">Description</h3>
 <p>Trim an array so that it contains only the specified inclusive range of elements.</p>
-<p>This command is extremely forgiving and using it with out of range indexes will not produce an
-error. If <code>start</code> is larger than the array's size or <code>start</code> &gt; <code>stop</code>, the result will be an empty
-array. If <code>start</code> is &lt; 0 then it will be treated as 0. If end is larger than the end of the array,
-it will be treated like the last element in it.</p>
+<p>This command is extremely forgiving and using it with out of range indexes will not produce an error. If <code>start</code> is larger than the array's size or <code>start</code> &gt; <code>stop</code>, the result will be an empty array. If <code>start</code> is &lt; 0 then it will be treated as 0. If end is larger than the end of the array, it will be treated like the last element in it.</p>
 <h3 id="return-value_14">Return value</h3>
 <p><a href="http://redis.io/topics/protocol#resp-integers">Integer</a>, specifically the array's new size.</p>
 <h2 id="jsonobjkeys">JSON.OBJKEYS</h2>
@@ -1926,8 +1911,7 @@ it will be treated like the last element in it.</p>
 
 <h3 id="description_13">Description</h3>
 <p>Return the keys in the object that's referenced by <code>path</code>.</p>
-<p><code>path</code> defaults to root if not provided. If the object is empty, or either <code>key</code> or <code>path</code> do not
-exist then null is returned.</p>
+<p><code>path</code> defaults to root if not provided. If the object is empty, or either <code>key</code> or <code>path</code> do not exist, then null is returned.</p>
 <h3 id="return-value_15">Return value</h3>
 <p><a href="http://redis.io/topics/protocol#resp-arrays">Array</a>, specifically the key names in the object as <a href="http://redis.io/topics/protocol#resp-bulk-strings">Bulk Strings</a>.</p>
 <h2 id="jsonobjlen">JSON.OBJLEN</h2>
@@ -1959,7 +1943,7 @@ exist then null is returned.</p>
 <ul>
 <li><code>MEMORY &lt;key&gt; [path]</code> - report the memory usage in bytes of a value. <code>path</code> defaults to root if
     not provided.</li>
-<li><code>HELP</code> - replies with a helpful message</li>
+<li><code>HELP</code> - reply with a helpful message</li>
 </ul>
 <h3 id="return-value_17">Return value</h3>
 <p>Depends on the subcommand used.</p>
@@ -1968,7 +1952,7 @@ exist then null is returned.</p>
 <li><code>HELP</code> returns an <a href="http://redis.io/topics/protocol#resp-arrays">array</a>, specifically with the help message</li>
 </ul>
 <h2 id="jsonforget">JSON.FORGET</h2>
-<p>This command is an alias for <a href="#jsondel"><code>JSON.DEL</code></a>.</p>
+<p>An alias for <a href="#jsondel"><code>JSON.DEL</code></a>.</p>
 <h2 id="jsonresp">JSON.RESP</h2>
 <blockquote>
 <p><strong>Available since 1.0.0.</strong><br />
@@ -1985,11 +1969,8 @@ exist then null is returned.</p>
 -   JSON <code>false</code> and <code>true</code> values are mapped to the respective <a href="http://redis.io/topics/protocol#resp-simple-strings">RESP Simple Strings</a>
 -   JSON Numbers are mapped to <a href="http://redis.io/topics/protocol#resp-integers">RESP Integers</a> or <a href="http://redis.io/topics/protocol#resp-bulk-strings">RESP Bulk Strings</a>, depending on type
 -   JSON Strings are mapped to <a href="http://redis.io/topics/protocol#resp-bulk-strings">RESP Bulk Strings</a>
--   JSON Arrays are represented as <a href="http://redis.io/topics/protocol#resp-arrays">RESP Arrays</a> in which first element is the
-          <a href="http://redis.io/topics/protocol#resp-simple-strings">simple string</a> <code>[</code> followed by the array's elements
--   JSON Objects are represented as <a href="http://redis.io/topics/protocol#resp-arrays">RESP Arrays</a> in which first element is the
-          <a href="http://redis.io/topics/protocol#resp-simple-strings">simple string</a> <code>{</code>. Each successive entry represents a key-value pair as a two-entries
-          <a href="http://redis.io/topics/protocol#resp-arrays">array</a> of <a href="http://redis.io/topics/protocol#resp-bulk-strings">bulk strings</a>.</p>
+-   JSON Arrays are represented as <a href="http://redis.io/topics/protocol#resp-arrays">RESP Arrays</a> in which the first element is the <a href="http://redis.io/topics/protocol#resp-simple-strings">simple string</a> <code>[</code> followed by the array's elements
+-   JSON Objects are represented as <a href="http://redis.io/topics/protocol#resp-arrays">RESP Arrays</a> in which the first element is the <a href="http://redis.io/topics/protocol#resp-simple-strings">simple string</a> <code>{</code>. Each successive entry represents a key-value pair as a two-entries <a href="http://redis.io/topics/protocol#resp-arrays">array</a> of <a href="http://redis.io/topics/protocol#resp-bulk-strings">bulk strings</a>.</p>
 <h3 id="return-value_18">Return value</h3>
 <p><a href="http://redis.io/topics/protocol#resp-arrays">Array</a>, specifically the JSON's RESP form as detailed.</p>
                 
@@ -2071,7 +2052,7 @@ exist then null is returned.</p>
       
     </div>
     
-      <script src="../assets/javascripts/application-c6f9af8d0c.js"></script>
+      <script src="../assets/javascripts/application-6b599127bc.js"></script>
       <script>app.initialize({url:{base:".."}})</script>
       
     

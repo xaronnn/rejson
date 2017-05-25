@@ -1,32 +1,32 @@
 
 <!DOCTYPE html>
-<html class="no-js">
+<html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
-        <link rel="canonical" href="https://redislabsmodules.github.io/ReJSON/path/">
+        <link rel="canonical" href="http://rejson.io/path/">
       
       
       
         <link rel="shortcut icon" href="../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.2, mkdocs-material-1.5.0">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.1">
     
     
       
-        <title>Path syntax - ReJSON Documentation</title>
+        <title>Path syntax - ReJSON - a JSON data type for Redis</title>
       
     
     
       <script src="../assets/javascripts/modernizr-56ade86843.js"></script>
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application-d848f886dc.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application-4d0d3f2fbf.css">
       
-        <link rel="stylesheet" href="../assets/stylesheets/application-66fa0d9bba.palette.css">
+        <link rel="stylesheet" href="../assets/stylesheets/application-f78e5cb881.palette.css">
       
     
     
@@ -65,7 +65,7 @@
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
         
-          <a href=".." title="ReJSON Documentation" class="md-logo md-header-nav__button">
+          <a href="http://rejson.io" title="ReJSON - a JSON data type for Redis" class="md-logo md-header-nav__button">
             <img src="../images/logo.svg" width="24" height="24">
           </a>
         
@@ -88,7 +88,7 @@
           <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
           
 <div class="md-search" data-md-component="search">
-  <div class="md-search__overlay"></div>
+  <label class="md-search__overlay" for="search"></label>
   <div class="md-search__inner">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" required placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
@@ -155,7 +155,7 @@
         <img src="../images/logo.svg">
       </i>
     
-    ReJSON Documentation
+    ReJSON - a JSON data type for Redis
   </label>
   
     <div class="md-nav__source">
@@ -239,8 +239,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#a-note-about-json-and-path-compatability" title="A note about JSON and path compatability" class="md-nav__link">
-    A note about JSON and path compatability
+  <a href="#a-note-about-json-key-names-and-path-compatibility" title="A note about JSON key names and path compatibility" class="md-nav__link">
+    A note about JSON key names and path compatibility
   </a>
   
 </li>
@@ -318,8 +318,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#a-note-about-json-and-path-compatability" title="A note about JSON and path compatability" class="md-nav__link">
-    A note about JSON and path compatability
+  <a href="#a-note-about-json-key-names-and-path-compatibility" title="A note about JSON key names and path compatibility" class="md-nav__link">
+    A note about JSON key names and path compatibility
   </a>
   
 </li>
@@ -346,31 +346,22 @@
               
                 
                 
-                <h1 id="rejson-path">ReJSON path</h1>
-<p>Since there does not exist a standard for path syntax, ReJSON implements its own. ReJSON's syntax is
-a subset of common best practices.</p>
-<p>Paths always begin at the root of a ReJSON value. The root is denoted by the period character (<code>.</code>).
-For paths referencing the root's children, prefixing the path with the root is optional.</p>
-<p>Dotted- and square-bracketed, single-or-double-quoted-child notation are both supported for object
-keys, so the following paths all refer to <em>boo</em>, child of <em>foo</em> under the root:</p>
+                <h1 id="rejson-path">ReJSON Path</h1>
+<p>Since there does not exist a standard for path syntax, ReJSON implements its own. ReJSON's syntax is a subset of common best practices and resembles <a href="http://goessner.net/articles/JsonPath/">JSONPath</a> not by accident.</p>
+<p>Paths always begin at the root of a ReJSON value. The root is denoted by the period character (<code>.</code>). For paths referencing the root's children, prefixing the path with the root is optional.</p>
+<p>Dotted- and square-bracketed, single-or-double-quoted-child notation are both supported for object keys, so the following paths all refer to <em>bar</em>, child of <em>foo</em> under the root:</p>
 <ul>
 <li><code>.foo.bar</code></li>
 <li><code>foo["bar"]</code></li>
 <li><code>['foo']["bar"]</code></li>
 </ul>
-<p>Array elements are accessed by their index enclosed by a pair of square brackets. The index is
-0-based, with 0 being the first element of the array, 1 being the next element and so on. These
-offsets can also be negative numbers indicating indices starting at the end of the array. For
-example, -1 is the last element in the array, -2 the penultimate, and so on.</p>
-<h2 id="a-note-about-json-and-path-compatability">A note about JSON and path compatability</h2>
-<p>By definition a JSON key can be any valid JSON String. Paths, on the other hand, are traditionally
-based on JavaScript's (and in Java in turn) variable naming conventions. Therefore, while it is
-possible to have ReJSON store objects containing arbitrary key names, accessing these keys via a
-path will only be possible if they respect these naming syntax rules:</p>
+<p>Array elements are accessed by their index enclosed by a pair of square brackets. The index is 0-based, with 0 being the first element of the array, 1 being the next element and so on. These offsets can also be negative numbers, indicating indices starting at the end of the array. For example, -1 is the last element in the array, -2 the penultimate, and so on.</p>
+<h2 id="a-note-about-json-key-names-and-path-compatibility">A note about JSON key names and path compatibility</h2>
+<p>By definition, a JSON key can be any valid JSON String. Paths, on the other hand, are traditionally based on JavaScript's (and in Java in turn) variable naming conventions. Therefore, while it is possible to have ReJSON store objects containing arbitrary key names, accessing these keys via a path will only be possible if they respect these naming syntax rules:</p>
 <ol>
 <li>Names must begin with a letter, a dollar (<code>$</code>) or an underscore (<code>_</code>) character</li>
 <li>Names can contain letters, digits, dollar signs and underscores</li>
-<li>Names are sensitive, case-wise</li>
+<li>Names are case-sensitive</li>
 </ol>
 <h2 id="time-complexity-of-path-evaluation">Time complexity of path evaluation</h2>
 <p>The complexity of searching (navigating to) an element in the path is made of:</p>
@@ -379,10 +370,8 @@ path will only be possible if they respect these naming syntax rules:</p>
 <li>Key search - O(N)<sup>&#8224;</sup>, where N is the number of keys in the parent object</li>
 <li>Array search - O(1)</li>
 </ol>
-<p>This means that the overall time complexity of searching a path is <em>O(N*M)</em>, where N is the depth
-and M is the number of parent object keys.</p>
-<p><sup>&#8224;</sup> while this is acceptable for objects where N is small, access in larger ones can
-be optimized. This is planned for a future version.</p>
+<p>This means that the overall time complexity of searching a path is <em>O(N*M)</em>, where N is the depth and M is the number of parent object keys.</p>
+<p><sup>&#8224;</sup> while this is acceptable for objects where N is small, access can be optimized for larger objects, and this is planned for a future version.</p>
                 
                   
                 
@@ -462,7 +451,7 @@ be optimized. This is planned for a future version.</p>
       
     </div>
     
-      <script src="../assets/javascripts/application-c6f9af8d0c.js"></script>
+      <script src="../assets/javascripts/application-6b599127bc.js"></script>
       <script>app.initialize({url:{base:".."}})</script>
       
     
