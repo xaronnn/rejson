@@ -275,6 +275,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#debugging" title="Debugging" class="md-nav__link">
+    Debugging
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#testing" title="Testing" class="md-nav__link">
     Testing
   </a>
@@ -282,8 +289,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#making-the-docs" title="Making the docs" class="md-nav__link">
-    Making the docs
+  <a href="#documentation" title="Documentation" class="md-nav__link">
+    Documentation
   </a>
   
 </li>
@@ -318,6 +325,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#debugging" title="Debugging" class="md-nav__link">
+    Debugging
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#testing" title="Testing" class="md-nav__link">
     Testing
   </a>
@@ -325,8 +339,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#making-the-docs" title="Making the docs" class="md-nav__link">
-    Making the docs
+  <a href="#documentation" title="Documentation" class="md-nav__link">
+    Documentation
   </a>
   
 </li>
@@ -347,6 +361,9 @@
                 
                 
                 <h1 id="developer-notes">Developer notes</h1>
+<h2 id="debugging">Debugging</h2>
+<p>Compile after settting the environment variable <code>DEBUG</code>, e.g. <code>export DEBUG=1</code>, to include the
+debugging information.</p>
 <h2 id="testing">Testing</h2>
 <p>Python is required for ReJSON's module test. Install it with <code>apt-get install python</code>. You'll also
 need to have <a href="https://github.com/andymccurdy/redis-py">redis-py</a> installed. The easiest way to get
@@ -366,12 +383,11 @@ $ <span class="nv">REDIS_PORT</span><span class="o">=</span><span class="m">6379
 </pre></div>
 
 
-<h2 id="making-the-docs">Making the docs</h2>
+<h2 id="documentation">Documentation</h2>
 <ol>
-<li>You'll need <code>mkdocs</code>, install it with: <code>pip install mkdocs</code></li>
-<li>You'll also need the theme so: <code>pip install mkdocs-material</code></li>
-<li>To serve locally do: <code>mkdocs build &amp;&amp; mkdocs serve</code></li>
-<li>To upload to GitHub Pages do: <code>mkdocs gh-deploy</code></li>
+<li>Prerequisites: <code>pip install mkdocs mkdocs-material</code></li>
+<li>To build and serve locally: <code>make localdocs</code></li>
+<li>To deploy to the website: <code>make deploydocs</code></li>
 </ol>
                 
                   
