@@ -232,35 +232,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#building-the-module" title="Building the module" class="md-nav__link">
-    Building the module
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#linux-ubuntu-1604" title="Linux Ubuntu 16.04" class="md-nav__link">
-    Linux Ubuntu 16.04
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#macosx" title="MacOSX" class="md-nav__link">
-    MacOSX
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#loading-the-module-to-redis" title="Loading the module to Redis" class="md-nav__link">
-    Loading the module to Redis
+  <a href="#launch-rejson-with-docker" title="Launch ReJSON with Docker" class="md-nav__link">
+    Launch ReJSON with Docker
   </a>
   
 </li>
@@ -297,6 +270,40 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-and-loading-the-module" title="Building and Loading the Module" class="md-nav__link">
+    Building and Loading the Module
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux-ubuntu-1604" title="Linux Ubuntu 16.04" class="md-nav__link">
+    Linux Ubuntu 16.04
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macosx" title="MacOSX" class="md-nav__link">
+    MacOSX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-the-module-to-redis" title="Loading the module to Redis" class="md-nav__link">
+    Loading the module to Redis
+  </a>
   
 </li>
         
@@ -409,35 +416,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#building-the-module" title="Building the module" class="md-nav__link">
-    Building the module
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#linux-ubuntu-1604" title="Linux Ubuntu 16.04" class="md-nav__link">
-    Linux Ubuntu 16.04
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#macosx" title="MacOSX" class="md-nav__link">
-    MacOSX
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#loading-the-module-to-redis" title="Loading the module to Redis" class="md-nav__link">
-    Loading the module to Redis
+  <a href="#launch-rejson-with-docker" title="Launch ReJSON with Docker" class="md-nav__link">
+    Launch ReJSON with Docker
   </a>
   
 </li>
@@ -474,6 +454,40 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-and-loading-the-module" title="Building and Loading the Module" class="md-nav__link">
+    Building and Loading the Module
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux-ubuntu-1604" title="Linux Ubuntu 16.04" class="md-nav__link">
+    Linux Ubuntu 16.04
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macosx" title="MacOSX" class="md-nav__link">
+    MacOSX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-the-module-to-redis" title="Loading the module to Redis" class="md-nav__link">
+    Loading the module to Redis
+  </a>
   
 </li>
         
@@ -519,44 +533,14 @@
 at: https://github.com/RedisLabsModules/ReJSON</p>
 <h2 id="quickstart">Quickstart</h2>
 <ol>
-<li><a href="#building-the-module">Build the ReJSON module library</a></li>
-<li><a href="#loading-the-module-to-redis">Load ReJSON to Redis</a></li>
+<li><a href="#launch-rejson-with-docker">Launch ReJSON with Docker</a></li>
 <li><a href="#using-rejson">Use it from <strong>any</strong> Redis client</a>, e.g.:</li>
 </ol>
 <p><img alt="ReJSON with redis-cli" src="./images/demo.gif" /></p>
-<h2 id="building-the-module">Building the module</h2>
-<h3 id="linux-ubuntu-1604">Linux Ubuntu 16.04</h3>
-<p>Requirements:</p>
-<ul>
-<li>The ReJSON repository: <code>git clone https://github.com/RedisLabsModules/rejson.git</code></li>
-<li>The <code>build-essential</code> package: <code>apt-get install build-essential</code></li>
-</ul>
-<p>To build the module, run <code>make</code> in the project's directory.</p>
-<p>Congratulations! You can find the compiled module library at <code>src/rejson.so</code>.</p>
-<h3 id="macosx">MacOSX</h3>
-<p>To build the module, run <code>make</code> in the project's directory.</p>
-<p>Congratulations! You can find the compiled module library at <code>src/rejson.so</code>.</p>
-<h2 id="loading-the-module-to-redis">Loading the module to Redis</h2>
-<p>Requirements:</p>
-<ul>
-<li><a href="http://redis.io/download">Redis v4.0 or above</a></li>
-</ul>
-<p>We recommend you have Redis load the module during startup by adding the following to your <code>redis.conf</code> file:</p>
-<div class="codehilite"><pre><span></span>loadmodule /path/to/module/rejson.so
-</pre></div>
-
-
-<p>In the line above replace <code>/path/to/module/rejson.so</code> with the actual path to the module's library. Alternatively, you can have Redis load the module using the following command line argument syntax:</p>
-<div class="codehilite"><pre><span></span>~/$ redis-server --loadmodule /path/to/module/rejson.so
-</pre></div>
-
-
-<p>Lastly, you can also use the <a href="http://redis.io/commands/module-load"><code>MODULE LOAD</code></a> command. Note, however, that <code>MODULE LOAD</code> is a <strong>dangerous command</strong> and may be blocked/deprecated in the future due to security considerations.</p>
-<p>Once the module has been loaded successfully, the Redis log should have lines similar to:</p>
-<div class="codehilite"><pre><span></span>...
-1877:M 23 Dec 02:02:59.725 # &lt;ReJSON&gt; JSON data type for Redis - v1.0.0 [encver 0]
-1877:M 23 Dec 02:02:59.725 * Module &#39;ReJSON&#39; loaded from &lt;redacted&gt;/src/rejson.so
-...
+<p>Alternatively, you can also build and load the module yourself. <a href="#building-and-loading-the-module">Build and Load the ReJSON module library</a></p>
+<h2 id="launch-rejson-with-docker">Launch ReJSON with Docker</h2>
+<p>Run the following on Windows, MacOS or Linux with Docker.</p>
+<div class="codehilite"><pre><span></span>docker run -p 6379:6379 --name redis-rejson redislabs/rejson:latest
 </pre></div>
 
 
@@ -663,6 +647,42 @@ OK
 <span class="n">r</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">StrictRedis</span><span class="p">()</span>
 <span class="n">r</span><span class="o">.</span><span class="n">execute_command</span><span class="p">(</span><span class="s1">&#39;JSON.SET&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 <span class="n">reply</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">execute_command</span><span class="p">(</span><span class="s1">&#39;JSON.GET&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">))</span>
+</pre></div>
+
+
+<h2 id="building-and-loading-the-module">Building and Loading the Module</h2>
+<h3 id="linux-ubuntu-1604">Linux Ubuntu 16.04</h3>
+<p>Requirements:</p>
+<ul>
+<li>The ReJSON repository: <code>git clone https://github.com/RedisLabsModules/rejson.git</code></li>
+<li>The <code>build-essential</code> package: <code>apt-get install build-essential</code></li>
+</ul>
+<p>To build the module, run <code>make</code> in the project's directory.</p>
+<p>Congratulations! You can find the compiled module library at <code>src/rejson.so</code>.</p>
+<h3 id="macosx">MacOSX</h3>
+<p>To build the module, run <code>make</code> in the project's directory.</p>
+<p>Congratulations! You can find the compiled module library at <code>src/rejson.so</code>.</p>
+<h3 id="loading-the-module-to-redis">Loading the module to Redis</h3>
+<p>Requirements:</p>
+<ul>
+<li><a href="http://redis.io/download">Redis v4.0 or above</a></li>
+</ul>
+<p>We recommend you have Redis load the module during startup by adding the following to your <code>redis.conf</code> file:</p>
+<div class="codehilite"><pre><span></span>loadmodule /path/to/module/rejson.so
+</pre></div>
+
+
+<p>In the line above replace <code>/path/to/module/rejson.so</code> with the actual path to the module's library. Alternatively, you can have Redis load the module using the following command line argument syntax:</p>
+<div class="codehilite"><pre><span></span>~/$ redis-server --loadmodule /path/to/module/rejson.so
+</pre></div>
+
+
+<p>Lastly, you can also use the <a href="http://redis.io/commands/module-load"><code>MODULE LOAD</code></a> command. Note, however, that <code>MODULE LOAD</code> is a <strong>dangerous command</strong> and may be blocked/deprecated in the future due to security considerations.</p>
+<p>Once the module has been loaded successfully, the Redis log should have lines similar to:</p>
+<div class="codehilite"><pre><span></span>...
+1877:M 23 Dec 02:02:59.725 # &lt;ReJSON&gt; JSON data type for Redis - v1.0.0 [encver 0]
+1877:M 23 Dec 02:02:59.725 * Module &#39;ReJSON&#39; loaded from &lt;redacted&gt;/src/rejson.so
+...
 </pre></div>
 
 
