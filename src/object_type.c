@@ -67,23 +67,23 @@ void *ObjectTypeRdbLoad(RedisModuleIO *rdb) {
                     case N_KEYVAL:
                         str = RedisModule_LoadStringBuffer(rdb, &strlen);
                         node = NewKeyValNode(str, strlen, NULL);
-                        Vector_Push(nodes, node);
-                        Vector_Push(indices, (uint64_t)1);
+                        Vector_Push(nodes, node, Node *);
+                        Vector_Push(indices, (uint64_t)1, int);
                         RedisModule_Free(str);
                         state = S_CONTAINER;
                         break;
                     case N_DICT:
                         len = RedisModule_LoadUnsigned(rdb);
                         node = NewDictNode(len);
-                        Vector_Push(nodes, node);
-                        Vector_Push(indices, len);
+                        Vector_Push(nodes, node, Node *);
+                        Vector_Push(indices, len, int);
                         state = S_CONTAINER;
                         break;
                     case N_ARRAY:
                         len = RedisModule_LoadUnsigned(rdb);
                         node = NewArrayNode(len);
-                        Vector_Push(nodes, node);
-                        Vector_Push(indices, len);
+                        Vector_Push(nodes, node, Node *);
+                        Vector_Push(indices, len, int);
                         state = S_CONTAINER;
                         break;
                 }  // switch (type)
@@ -112,7 +112,7 @@ void *ObjectTypeRdbLoad(RedisModuleIO *rdb) {
             case S_CONTAINER:
                 Vector_Get(indices, Vector_Last(indices), &len);
                 if (len) {  // move to next child node
-                    Vector_Put(indices, Vector_Last(indices), len - 1);
+                    Vector_Put(indices, Vector_Last(indices), len - 1, int);
                     type = (NodeType)RedisModule_LoadUnsigned(rdb);
                     state = S_BEGIN_VALUE;
                 } else {

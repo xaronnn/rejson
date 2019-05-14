@@ -26,7 +26,7 @@ typedef struct {
 static ModuleCtx JSONCtx;
 
 // == Helpers ==
-#define NODEVALUE_AS_DOUBLE(n) (N_INTEGER == n->type ? (double)n->value.intval : n->value.numval)
+#define NODEVALUE_AS_DOUBLE(n) (N_INTEGER == n->type ? (PORT_LONGDOUBLE)n->value.intval : n->value.numval)
 #define NODETYPE(n) (n ? n->type : N_NULL)
 struct JSONPathNode_t;
 static void maybeClearPathCache(JSONType_t *jt, const struct JSONPathNode_t *pn);
@@ -117,7 +117,7 @@ int NodeFromJSONPath(Node *root, const RedisModuleString *path, JSONPathNode_t *
 /* Replies with an error about a search path */
 void ReplyWithSearchPathError(RedisModuleCtx *ctx, JSONPathNode_t *jpn) {
     sds err = sdscatfmt(sdsempty(), "ERR Search path error at offset %I: %s",
-                        (long long)jpn->sperroffset + 1, jpn->sperrmsg ? jpn->sperrmsg : "(null)");
+                        (PORT_LONGLONG)jpn->sperroffset + 1, jpn->sperrmsg ? jpn->sperrmsg : "(null)");
     RedisModule_ReplyWithError(ctx, err);
     sdsfree(err);
 }
@@ -290,7 +290,7 @@ int JSONDebug_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int ar
         }
 
         if (E_OK == jpn->err) {
-            RedisModule_ReplyWithLongLong(ctx, (long long)ObjectTypeMemoryUsage(jpn->n));
+            RedisModule_ReplyWithLongLong(ctx, (PORT_LONGLONG)ObjectTypeMemoryUsage(jpn->n));
             JSONPathNode_Free(jpn);
             return REDISMODULE_OK;
         } else {
@@ -1128,7 +1128,7 @@ int JSONDel_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc
         }
     }  // if (N_DICT)
 
-    RedisModule_ReplyWithLongLong(ctx, (long long)argc - 2);
+    RedisModule_ReplyWithLongLong(ctx, (PORT_LONGLONG)argc - 2);
 
 ok:
     JSONPathNode_Free(jpn);
@@ -1155,7 +1155,7 @@ int JSONNum_GenericCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int ar
     RedisModule_AutoMemory(ctx);
 
     const char *cmd = RedisModule_StringPtrLen(argv[0], NULL);
-    double oval, bval, rz;  // original value, by value and the result
+    PORT_LONGDOUBLE oval, bval, rz;  // original value, by value and the result
     Object *joval = NULL;   // the by value as a JSON object
 
     // key must be an object type
@@ -1233,8 +1233,8 @@ int JSONNum_GenericCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int ar
     // make an object out of the result per its type
     Object *orz;
     // the result is an integer only if both values were, and providing an int64 can hold it
-    if (N_INTEGER == NODETYPE(jpn->n) && N_INTEGER == NODETYPE(joval) && rz <= (double)INT64_MAX &&
-        rz >= (double)INT64_MIN) {
+    if (N_INTEGER == NODETYPE(jpn->n) && N_INTEGER == NODETYPE(joval) && rz <= (PORT_LONGDOUBLE)INT64_MAX &&
+        rz >= (PORT_LONGDOUBLE)INT64_MIN) {
         orz = NewIntNode((int64_t)rz);
     } else {
         orz = NewDoubleNode(rz);
@@ -1362,7 +1362,7 @@ int JSONStrAppend_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
 
     // actually concatenate the strings
     Node_StringAppend(jpn->n, jo);
-    RedisModule_ReplyWithLongLong(ctx, (long long)Node_Length(jpn->n));
+    RedisModule_ReplyWithLongLong(ctx, (PORT_LONGLONG)Node_Length(jpn->n));
     Node_Free(jo);
     JSONPathNode_Free(jpn);
 
@@ -1420,7 +1420,7 @@ int JSONArrInsert_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, in
     }
 
     // get the index
-    long long index;
+    PORT_LONGLONG index;
     if (REDISMODULE_OK != RedisModule_StringToLongLong(argv[3], &index)) {
         RedisModule_ReplyWithError(ctx, REJSON_ERROR_INDEX_INVALID);
         goto error;
@@ -1658,7 +1658,7 @@ int JSONArrIndex_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int
     }
 
     // get start (inclusive) & stop (exlusive) indices
-    long long start = 0, stop = 0;
+    PORT_LONGLONG start = 0, stop = 0;
     if (argc > 4) {
         if (REDISMODULE_OK != RedisModule_StringToLongLong(argv[4], &start)) {
             RedisModule_ReplyWithError(ctx, REJSON_ERROR_INDEX_INVALID);
@@ -1733,14 +1733,14 @@ int JSONArrPop_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int a
     }
 
     // nothing to do
-    long long len = Node_Length(jpn->n);
+    PORT_LONGLONG len = Node_Length(jpn->n);
     if (!len) {
         RedisModule_ReplyWithNull(ctx);
         goto ok;
     }
 
     // get the index
-    long long index = -1;
+    PORT_LONGLONG index = -1;
     if (argc > 3 && REDISMODULE_OK != RedisModule_StringToLongLong(argv[3], &index)) {
         RedisModule_ReplyWithError(ctx, REJSON_ERROR_INDEX_INVALID);
         goto error;
@@ -1831,8 +1831,8 @@ int JSONArrTrim_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
     }
 
     // get start & stop
-    long long start, stop, left, right;
-    long long len = (long long)Node_Length(jpn->n);
+    PORT_LONGLONG start, stop, left, right;
+    PORT_LONGLONG len = (PORT_LONGLONG)Node_Length(jpn->n);
     if (REDISMODULE_OK != RedisModule_StringToLongLong(argv[3], &start)) {
         RedisModule_ReplyWithError(ctx, REJSON_ERROR_INDEX_INVALID);
         goto error;
@@ -1860,7 +1860,7 @@ int JSONArrTrim_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
     Node_ArrayDelRange(jpn->n, 0, left);
     Node_ArrayDelRange(jpn->n, -right, right);
 
-    RedisModule_ReplyWithLongLong(ctx, (long long)Node_Length(jpn->n));
+    RedisModule_ReplyWithLongLong(ctx, (PORT_LONGLONG)Node_Length(jpn->n));
     maybeClearPathCache(jt, jpn);
     JSONPathNode_Free(jpn);
     RedisModule_ReplicateVerbatim(ctx);
@@ -1902,7 +1902,7 @@ int JSONCacheInfoCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc
 
 int JSONCacheInitCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) {
     // Initialize the cache settings. This is temporary and used for tests
-    long long maxByte = LRUCACHE_DEFAULT_MAXBYTE, maxEnt = LRUCACHE_DEFAULT_MAXENT,
+    PORT_LONGLONG maxByte = LRUCACHE_DEFAULT_MAXBYTE, maxEnt = LRUCACHE_DEFAULT_MAXENT,
               minSize = LRUCACHE_DEFAULT_MINSIZE;
     if (argc == 4) {
         if (RMUtil_ParseArgs(argv, argc, 1, "lll", &maxByte, &maxEnt, &minSize) != REDISMODULE_OK) {
@@ -2017,7 +2017,10 @@ int Module_CreateCommands(RedisModuleCtx *ctx) {
     return REDISMODULE_OK;
 }
 
-int RedisModule_OnLoad(RedisModuleCtx *ctx) {
+#ifdef _WIN32
+__declspec(dllexport)
+#endif
+    int RedisModule_OnLoad(RedisModuleCtx *ctx) {
     // Register the module
     if (RedisModule_Init(ctx, RLMODULE_NAME, REJSON_MODULE_VERSION, REDISMODULE_APIVER_1) ==
         REDISMODULE_ERR)

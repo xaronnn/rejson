@@ -32,7 +32,7 @@ static inline Node *_popNode(_JsonParserContext *ctx) {
 }
 
 /* Decalre it. */
-static int _AllowedEscapes[];
+static int _AllowedEscapes[0x80];
 static int _IsAllowedWhitespace(unsigned c);
 
 inline static int errorCallback(jsonsl_t jsn, jsonsl_error_t err, struct jsonsl_state_st *state,
@@ -111,7 +111,7 @@ inline static void popCallback(jsonsl_t jsn, jsonsl_action_t action, struct json
         if (state->special_flags & JSONSL_SPECIALf_NUMERIC) {
             if (state->special_flags & (JSONSL_SPECIALf_FLOAT | JSONSL_SPECIALf_EXPONENT)) {
                 // convert to double
-                double value;
+                PORT_LONGDOUBLE value;
                 char *eptr;
 
                 errno = 0;
@@ -125,7 +125,7 @@ inline static void popCallback(jsonsl_t jsn, jsonsl_action_t action, struct json
                 _pushNode(jpctx, NewDoubleNode(value));
             } else {
                 // convert long long (int64_t)
-                long long value;
+                PORT_LONGLONG value;
                 char *eptr;
 
                 errno = 0;
@@ -276,7 +276,6 @@ static const char twoCharEscape[256] = {0,
                                         ['\t'] = 't'};
 
 sds JSONSerialize_String(sds buf, const char *s, size_t len, int noescape) {
-
     // Pointer to the beginning of the last 'simple' string. This allows to
     // forego adding char-by-char for longer spans of non-special strings
     const char *simpleBegin = NULL;
@@ -400,7 +399,6 @@ inline static void _JSONSerialize_ContainerDelimiter(void *ctx) {
 }
 
 void SerializeNodeToJSON(const Node *node, const JSONSerializeOpt *opt, sds *json) {
-
     // set up the builder
     _JSONBuilderContext *b = RedisModule_Calloc(1, sizeof(_JSONBuilderContext));
     b->indentstr = opt->indentstr ? sdsnew(opt->indentstr) : sdsempty();

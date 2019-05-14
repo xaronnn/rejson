@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include "win32_port.h"
+
 /*
 * Generic resizable vector that can be used if you just want to store stuff
 * temporarily.
@@ -23,6 +25,8 @@ Vector *__newVectorSize(size_t elemSize, size_t cap);
 
 // Put a pointer in the vector. To be used internall by the library
 int __vector_PutPtr(Vector *v, size_t pos, void *elem);
+
+int __vector_PushPtr(Vector *v, void *elem);
 
 /*
 * Create a new vector for a given type and a given capacity.
@@ -47,15 +51,23 @@ int Vector_Pop(Vector *v, void *ptr);
 * Put an element at pos.
 * Note: If pos is outside the vector capacity, we resize it accordingly
 */
-#define Vector_Put(v, pos, elem)                                               \
+#ifndef _WIN32
+#define Vector_Put(v, pos, elem, elemType)                                               \
   __vector_PutPtr(v, pos, elem ? &(typeof(elem)){elem} : NULL)
+#else
+#define Vector_Put(v, pos, elem, elemType)                                               \
+  __vector_PutPtr(v, pos, elem ? &(elemType){elem} : NULL)
+#endif
 
 /* Push an element at the end of v, resizing it if needed. This macro wraps
  * __vector_PushPtr */
-#define Vector_Push(v, elem)                                                   \
+#ifndef _WIN32
+#define Vector_Push(v, elem, elemType)                                                   \
   __vector_PushPtr(v, elem ? &(typeof(elem)){elem} : NULL)
-
-int __vector_PushPtr(Vector *v, void *elem);
+#else
+#define Vector_Push(v, elem, elemType)                                                   \
+  __vector_PushPtr(v, elem ? &(elemType){elem} : NULL)
+#endif
 
 /* resize capacity of v */
 int Vector_Resize(Vector *v, size_t newcap);
@@ -69,7 +81,5 @@ int Vector_Cap(Vector *v);
 /* free the vector and the underlying data. Does not release its elements if
  * they are pointers*/
 void Vector_Free(Vector *v);
-
-int __vecotr_PutPtr(Vector *v, size_t pos, void *elem);
 
 #endif

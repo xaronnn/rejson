@@ -19,7 +19,9 @@
 #define __PATH_H__
 
 #include <string.h>
+#ifndef _WIN32
 #include <sys/param.h>
+#endif
 #include "object.h"
 #include "redismodule.h"
 #include "rmstrndup.h"

@@ -29,7 +29,7 @@ Node *NewBoolNode(int val) {
     return ret;
 }
 
-Node *NewDoubleNode(double val) {
+Node *NewDoubleNode(PORT_LONGDOUBLE val) {
     Node *ret = __newNode(N_NUMBER);
     ret->value.numval = val;
     return ret;
@@ -526,8 +526,8 @@ typedef struct {
 // serializer stack push
 static inline void _serializerPush(NodeSerializerStack *s, const Node *n) {
     s->level++;
-    Vector_Push(s->nodes, n);
-    Vector_Push(s->indices, 0);
+    Vector_Push(s->nodes, n, Node *);
+    Vector_Push(s->indices, 0, int);
 }
 
 // serializer stack push
@@ -593,7 +593,7 @@ void Node_Serializer(const Node *n, const NodeSerializerOpt *o, void *ctx) {
                 Vector_Get(stack.indices, stack.level - 1, &curr_index);
                 if (curr_index < curr_len) {
                     if (curr_index && _maskenabled(curr_node, o->xDelim)) o->fDelim(ctx);
-                    Vector_Put(stack.indices, stack.level - 1, curr_index + 1);
+                    Vector_Put(stack.indices, stack.level - 1, curr_index + 1, int);
                     _serializerPush(&stack, curr_entries[curr_index]);
                     state = S_BEGIN_VALUE;
                 } else {
