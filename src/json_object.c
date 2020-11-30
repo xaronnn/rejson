@@ -276,6 +276,7 @@ static const char twoCharEscape[256] = {0,
                                         ['\t'] = 't'};
 
 sds JSONSerialize_String(sds buf, const char *s, size_t len, int noescape) {
+
     // Pointer to the beginning of the last 'simple' string. This allows to
     // forego adding char-by-char for longer spans of non-special strings
     const char *simpleBegin = NULL;
@@ -399,6 +400,7 @@ inline static void _JSONSerialize_ContainerDelimiter(void *ctx) {
 }
 
 void SerializeNodeToJSON(const Node *node, const JSONSerializeOpt *opt, sds *json) {
+
     // set up the builder
     _JSONBuilderContext *b = RedisModule_Calloc(1, sizeof(_JSONBuilderContext));
     b->indentstr = opt->indentstr ? sdsnew(opt->indentstr) : sdsempty();

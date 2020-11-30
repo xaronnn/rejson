@@ -26,8 +26,6 @@ Vector *__newVectorSize(size_t elemSize, size_t cap);
 // Put a pointer in the vector. To be used internall by the library
 int __vector_PutPtr(Vector *v, size_t pos, void *elem);
 
-int __vector_PushPtr(Vector *v, void *elem);
-
 /*
 * Create a new vector for a given type and a given capacity.
 * e.g. NewVector(int, 0) - empty vector of ints
@@ -68,6 +66,7 @@ int Vector_Pop(Vector *v, void *ptr);
 #define Vector_Push(v, elem, elemType)                                                   \
   __vector_PushPtr(v, elem ? &(elemType){elem} : NULL)
 #endif
+int __vector_PushPtr(Vector *v, void *elem);
 
 /* resize capacity of v */
 int Vector_Resize(Vector *v, size_t newcap);

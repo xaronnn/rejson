@@ -2,13 +2,15 @@
 
 /* Byte-wise swap two items of size SIZE. */
 #define SWAP(a, b, size)                      \
-    do {                                      \
-        register size_t __size = (size);      \
-        register char *__a = (a), *__b = (b); \
-        do {                                  \
-            char __tmp = *__a;                \
-            *__a++ = *__b;                    \
-            *__b++ = __tmp;                   \
+  do                                          \
+    {                                         \
+      register size_t __size = (size);        \
+      register char *__a = (a), *__b = (b);   \
+      do                                      \
+        {                                     \
+          char __tmp = *__a;                  \
+          *__a++ = *__b;                      \
+          *__b++ = __tmp;                     \
         } while (--__size > 0);               \
     } while (0)
 
@@ -31,7 +33,8 @@ void __sift_up(Vector *v, size_t first, size_t last, int (*cmp)(void *, void *))
             do {
                 memcpy(__vector_GetPtr(v, last), __vector_GetPtr(v, ptr), v->elemSize);
                 last = ptr;
-                if (len == 0) break;
+                if (len == 0)
+                    break;
                 len = (len - 1) / 2;
                 ptr = first + len;
             } while (cmp(__vector_GetPtr(v, ptr), t) < 0);
@@ -49,12 +52,12 @@ void __sift_down(Vector *v, size_t first, size_t last, int (*cmp)(void *, void *
     size_t len = last - first;
     size_t child = start - first;
 
-    if (len < 2 || (len - 2) / 2 < child) return;
+    if (len < 2 || (len - 2) / 2 < child)
+        return;
 
     child = 2 * child + 1;
 
-    if ((child + 1) < len &&
-        cmp(__vector_GetPtr(v, first + child), __vector_GetPtr(v, first + child + 1)) < 0) {
+    if ((child + 1) < len && cmp(__vector_GetPtr(v, first + child), __vector_GetPtr(v, first + child + 1)) < 0) {
         // right-child exists and is greater than left-child
         ++child;
     }
@@ -75,13 +78,13 @@ void __sift_down(Vector *v, size_t first, size_t last, int (*cmp)(void *, void *
         memcpy(__vector_GetPtr(v, start), __vector_GetPtr(v, first + child), v->elemSize);
         start = first + child;
 
-        if ((len - 2) / 2 < child) break;
+        if ((len - 2) / 2 < child)
+            break;
 
         // recompute the child based off of the updated parent
         child = 2 * child + 1;
 
-        if ((child + 1) < len &&
-            cmp(__vector_GetPtr(v, first + child), __vector_GetPtr(v, first + child + 1)) < 0) {
+        if ((child + 1) < len && cmp(__vector_GetPtr(v, first + child), __vector_GetPtr(v, first + child + 1)) < 0) {
             // right-child exists and is greater than left-child
             ++child;
         }
@@ -94,6 +97,7 @@ void __sift_down(Vector *v, size_t first, size_t last, int (*cmp)(void *, void *
 #endif
 }
 
+
 void Make_Heap(Vector *v, size_t first, size_t last, int (*cmp)(void *, void *)) {
     if (last - first > 1) {
         // start from the first parent, there is no need to consider children
@@ -103,9 +107,11 @@ void Make_Heap(Vector *v, size_t first, size_t last, int (*cmp)(void *, void *))
     }
 }
 
+
 inline void Heap_Push(Vector *v, size_t first, size_t last, int (*cmp)(void *, void *)) {
     __sift_up(v, first, last, cmp);
 }
+
 
 inline void Heap_Pop(Vector *v, size_t first, size_t last, int (*cmp)(void *, void *)) {
     if (last - first > 1) {
