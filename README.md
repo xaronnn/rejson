@@ -1,8 +1,12 @@
-[![GitHub issues](https://img.shields.io/github/release/RedisJSON/RedisJSON.svg)](https://github.com/RedisJSON/RedisJSON/releases/latest)
-[![CircleCI](https://circleci.com/gh/RedisJSON/RedisJSON/tree/master.svg?style=svg)](https://circleci.com/gh/RedisJSON/RedisJSON/tree/master)
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/redislabs/rejson.svg)](https://hub.docker.com/r/redislabs/rejson/builds/)
-[![Forum](https://img.shields.io/badge/Forum-RedisJSON-blue)](https://forum.redislabs.com/c/modules/redisjson)
-[![Gitter](https://badges.gitter.im/RedisLabs/RedisJSON.svg)](https://gitter.im/RedisLabs/RedisJSON?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+# RedisJSON port for Windows
+
+This is a Windows port of RedisJSON (former ReJSON) module for [Redis for Windows](https://github.com/tporadowski/redis), now at version 1.0.6.
+It seems to be working with both [4.0.14.2](https://github.com/tporadowski/redis/releases/tag/v4.0.14.2)
+and [5.0.10](https://github.com/tporadowski/redis/releases/tag/v5.0.10), but since it was mostly ported for testing the module support in Redis for Windows - it
+needs to be thoroughly tested before being used in production.
+
+**NOTE**: below is the original Readme of [RedisJSON v1.0.6](https://github.com/RedisJSON/RedisJSON/tree/v1.0.6)
+
 
 # RedisJSON - a JSON data type for Redis
 
